@@ -52,8 +52,8 @@ router.route("/addVehicle").post((req, res) => {
         NoOfSeats,
         RatePDay,
         YearsRent,
-        vehPic,
-        vehDoc
+        // vehPic,
+        // vehDoc
     })
 
 

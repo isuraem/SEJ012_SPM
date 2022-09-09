@@ -112,16 +112,16 @@ const vehicleSchema = new Schema({
 
     },
 
-    vehPic: {
+    // vehPic: {
 
-        type: String,
+    //     type: String,
 
-    },
+    // },
 
-    vehDoc: {
-        type: String,
+    // vehDoc: {
+    //     type: String,
 
-    },
+    // },
 
 
 
