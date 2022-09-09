@@ -1,31 +1,32 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
 
-import "./style.scss"
+import "./style.scss";
 
 function Header(props) {
   let history = useHistory();
   return (
     <div className="page-body ">
-      {/* <div class="cube"></div>
       <div class="cube"></div>
       <div class="cube"></div>
       <div class="cube"></div>
       <div class="cube"></div>
       <div class="cube"></div>
       <div class="cube"></div>
-      <div class="cube"></div> */}
+      <div class="cube"></div>
+      <div class="cube"></div>
       <header>
         <nav
           className="navbar navbar-expand-lg navbar-light fixed-top"
           id="mainNav"
         >
           <div className="container-fluid">
-            <a className="navbar-brand js-scroll-trigger" href="/dashboard">
+            <a className="navbar-brand js-scroll-trigger" href="#">
               <img
-                src="https://i.ibb.co/mDn4bQv/spm.png"
-                width="300px"
+                src="images/Let's.png"
+                width="250px"
                 height="100px"
+              
                 alt="todo"
                 border="0"
               />
@@ -72,7 +73,7 @@ function Header(props) {
           <ul>
             <hr></hr>
             <li>
-              <Link to="/dashboard">
+              <Link to="#">
                 <i className="fa fa-th fa-2x"></i>
                 <span className="nav-text">Dashboard</span>
                 <i className="fa fa-angle-right fa-2x"></i>
@@ -126,14 +127,14 @@ function Header(props) {
               </li>
               <ul className="sub-menu collapse" id="new2">
                 <li className="has-subnav">
-                  <Link to="/viewReservation">
+                  <Link to="/viewEvent">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text"> Reservations List</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav ">
-                  <Link to="/addReservation">
+                  <Link to="/addEvent">
                     <i className="fa"></i>
                     <span className="nav-text">Add Reservation</span>
                     <i className="fa fa-angle-right fa-3x"></i>

@@ -11,157 +11,49 @@ import Header from '../../Header';
 function Viewreservation() {
 
     const [viewreservation, setviewreservation] = useState([]);
-    const [search, setSearch] = useState("");
-
-    const [modalData, setData] = useState([]);
-    const [modalShow, setModalShow] = useState(false);
-
-    const [modalDataDelete, setModalDataDelete] = useState([]);
-    const [modalDeleteConfirm, setModalDeleteConfirm] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
-
-    const [modalLoading, setModalLoading] = useState(false);
-
-    const [modalDataUpdate, setModalDataUpdate] = useState([]);
-    const [modalUpdate, setModalUpdate] = useState(false);
+  
 
     useEffect(() => {
 
-        if (document.getElementById('submit').clicked) {//this get executed if we are specifically searching
-            searchReservation();
+        function getReservation() {
+            axios.get("http://localhost:8070/event/displayEvent").then((res) => {
+                                setviewreservation(res.data.reverse());
+                //console.log("Data recieved");
 
-        } else {
-            function getReservation() {
-                axios.get("http://localhost:8070/event/displayEvent").then((res) => {
-                    setviewreservation(res.data.reverse());
-                }).catch((error) => {
-
-                    setModalLoading(true);
-                })
-            }
-            getReservation();
-
-        }
-
-
-    }, [])
-
-
-    useEffect(() => {
-
-        //console.log("component did update", modalDataDelete)
-
-    }, [modalDataDelete]);
-
-
-    const openModal = (reservations) => {
-        setData(reservations);
-        handleViewOnClick();
-    }
-
-    const handleViewOnClick = () => {
-        // console.log("req came for modal");
-        // console.log(modalData, "data came for modalllllll");
-        setModalShow(true);
-    }
-
-    //set delete modal
-    const openModalDelete = (data) => {
-        setModalDataDelete(data);
-        setModalDeleteConfirm(true)
-
-    }
-
-    //set update modal
-    const openModalUpdate = (data) => {
-        //console.log("request came for modal updateeeeeee", data);
-        setModalDataUpdate(data);
-        setModalUpdate(true);
-
-    }
-
-    //search all completed record after clicking completed button
-    function pendingRecords() {
-        function getPendingReservation() {
-            axios.get("https://rent-x-api.herokuapp.com/reservations/searchCompletedReservationRecords/").then((res) => {
-                setviewreservation(res.data.reverse());
             }).catch((error) => {
-                alert(error.message);
-            })
-        }
-        getPendingReservation();
-    }
-
-
-    //search customer nic and package name after the search
-    function searchReservation(e) {
-        e.preventDefault();
-        if (!isNaN(search.charAt(0))) {
-            axios.get(`https://rent-x-api.herokuapp.com/reservations/searchReservationRecs/${search}`).then((res) => {
-
-                setviewreservation(res.data);
-            }).catch((error) => {
-                alert(error.message);
-            })
-        } else {
-
-            axios.get(`https://rent-x-api.herokuapp.com/reservations/searchReservationRecordsX/${search}`).then((res) => {
-
-                setviewreservation(res.data);
-            }).catch((error) => {
-                alert(error.message);
-
-            })
-        }
-    }
-
-
-    //handle delete from reservation and add to the remove reservation list
-    const deleteReservation = async (data) => {
-
-        await axios.post("https://rent-x-api.herokuapp.com/deletedReservations/addRemovedReservation", { data }).then(() => {
-
-            Swal.fire({
-                title: "Completed Reservation removed! ",
-                text: "Reservation removed",
-                icon: 'success',
-                confirmButtonColor: "#207159",
-
-            })
-
-            const value = axios.post("https://rent-x-api.herokuapp.com/reservations/deleteReservation", modalDataDelete);
-
-            if (value) {
-
+                // alert(error.message);
+                console.log("f354754",error);
                 Swal.fire({
-                    title: 'Success!',
-                    text: `${"Reservation Deleted Successfully"}`,
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 2000
-                }
-                ).then(() => {
-                    window.location.reload();
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    confirmButtonColor: '#207159',
+
                 })
+            })
 
-            }
+        }
 
-        }).catch((err) => {
+        getReservation();
 
-            Swal.fire({
-                title: 'Oops!',
-                text: `${"Reservation not Completed"}`,
-                icon: 'error',
-                showConfirmButton: false,
-                timer: 1500
-            }
-            )
+    }, []);
 
-        })
+    // useEffect(() => {
 
-    }
+       
+    //         function getReservation() {
+    //             axios.get("http://localhost:8070/event/displayEvent").then((res) => {
+    //                 setviewreservation(res.data.reverse());
+    //             }).catch((error) => {
 
-    //refresh the page
+                  
+    //             })
+    //         }
+         
+    // },[])
+
+
+
     function refreshPage() {
         window.location.reload();
     }
@@ -170,20 +62,7 @@ function Viewreservation() {
     return (
         <div className="page-component-body">
             <Header></Header>
-            <Modal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <TestModal
-                    data={modalData}
-                    onHide={() => setModalShow(false)}
-                />
-            </Modal>
-
-
+           
             <div className="table-emp">
                 <div class="row table-head">
                     <div class="col">
@@ -196,7 +75,7 @@ function Viewreservation() {
                         </button>
                     </a>
                     <p class="float-right ml-4">
-                        <button class="btn btn-ok white" id="pending" onClick={pendingRecords}>
+                        <button class="btn btn-ok white" id="pending" >
                             Completed Reservation
                         </button>
                     </p>
@@ -210,13 +89,7 @@ function Viewreservation() {
                     <div className="col-md-8"></div>
                     <div className="col">
                         <div class="input-group input-group-search">
-                            <div class="searchbar">
-                                <form onSubmit={searchReservation} >
-                                    <input class="search_input" type="text" name="search" placeholder="Search..."
-                                        value={search} onChange={(event) => { setSearch(event.target.value) }} require />
-                                    <button class="btn search_icon" id="submit" name="submit" type="submit" ><i class="fa fa-search" ></i></button>
-                                </form>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -231,14 +104,14 @@ function Viewreservation() {
                             <th class="text">To</th>
                             <th class="text-center">Total</th>
                             <th class="text-right">Status</th>
-                            <th class="text-center">Action</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
                         {viewreservation.map((reservations) => {
                             return (
                                 <tr>
-                                    <td class="text" onClick={() => openModal(reservations)} data-toggle="tooltip" data-placement="right" title="Click to view reservation" className="view-td">{reservations.customername}</td>
+                                    <td class="text" >{reservations.customername}</td>
                                     <td class="text">{reservations.customernic}</td>
                                     <td class="text">{reservations.packagename}</td>
                                     <td class="text">{reservations.eventtype}</td>
@@ -246,15 +119,8 @@ function Viewreservation() {
                                     <td class="text">{moment(reservations.to).format('YYYY-MMMM-DD')}</td>
                                     <td class="text-right">{reservations.totalreservation.toFixed(2)}</td>
                                     <td class="text-right">{reservations.status}</td>
-                                    <td class="text">
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-
-                                            <Link class="btn btn-light btn-sm" onClick={() => openModalUpdate(reservations)}  >update</Link>
-
-                                            <Link class="btn btn-danger btn-sm" onClick={() => { openModalDelete(reservations) }} role="button"> remove</Link>
-
-                                        </div></td>
-
+                                   
+                                        
                                 </tr>
                             );
                         })}
@@ -262,73 +128,7 @@ function Viewreservation() {
                 </table>
             </div>
 
-            <Modal show={modalDeleteConfirm} size="md"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirm Deletion</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>Are you want to delete this item ?</p>
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="row">
-                        <div className="col -6">
-                            <button type="submit" className="btn btn-delete" onClick={() => { deleteReservation(modalDataDelete); }}>
-                                Confirm
-                            </button>
-                        </div>
-                        <div className="col-6   text-right" onClick={() => setModalDeleteConfirm(false)}>
-                            <button type="reset" className="btn btn-reset">
-                                cancel
-                            </button>
-                        </div>
-
-                    </div>
-                </Modal.Footer>
-            </Modal>
-            {/* modal for display while loading or on error */}
-            <Modal show={modalLoading} size="sm"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered>
-                <Modal.Body>
-                    <div class="d-flex justify-content-center mt-2">
-                        <div class="spinner-grow text-danger" role="status">
-                        </div>
-                        <div class="spinner-grow text-danger" role="status">
-                        </div><div class="spinner-grow text-danger" role="status">
-                        </div>
-
-                        <span class="sr-only">something went wrong...</span>
-                    </div>
-                    <div class="d-flex justify-content-center mt-4 h5"> something went wrong</div>
-
-                </Modal.Body>
-                <Modal.Footer>
-
-                    <div className="col py-3 text-center">
-                        <button type="submit" className="btn btn-delete" onClick={() => { window.location.reload() }}>
-                            Try again
-                        </button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-
-            {/* modal for update the data of employee */}
-            <Modal
-                show={modalUpdate}
-                onHide={() => setModalUpdate(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <UpdateReservationModal
-                    data={modalDataUpdate}
-                    onHide={() => setModalUpdate(false)}
-                />
-            </Modal>
-
+           
 
         </div>
     )

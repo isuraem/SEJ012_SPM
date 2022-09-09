@@ -7,6 +7,7 @@ import "react-datetime/css/react-datetime.css";
 import Swal from "sweetalert2";
 import Header from "../../Header";
 
+
 function Reservation() {
   // disable past dates
   const yesterday = moment().subtract(1, "day");
@@ -474,8 +475,9 @@ function Reservation() {
   }
 
   return (
+  
     <div className="container ">
-    <div className="page-component-body pl-5">
+    <div className="page-component-body pl-0">
       <Header></Header>
       <div class="container input-main-form pl-5">
         <br></br>
@@ -756,6 +758,7 @@ function Reservation() {
                             unitpricesecond();
                           }}
                         />
+                       
                       </div>
                       <div
                         class="form-group col-md-2"
@@ -1194,8 +1197,14 @@ function Reservation() {
         </div>
       </div>
       <br></br>
+      
     </div>
+    
+    
     </div>
+   
+
+    
   );
 }
 

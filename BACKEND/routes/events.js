@@ -46,9 +46,9 @@ router.route("/addEvent").post((req, res)=> {
     })
 }
 )
-controller.route("/displayEvent").get((req, res) => {
-    Reservation.find().then((reservation) => {
-        res.json(reservation)
+router.route("/displayEvent").get((req, res) => {
+    Event.find().then((Event) => {
+        res.json(Event)
     }).catch((err) => {
         console.log(err);
     })
