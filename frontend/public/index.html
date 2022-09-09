@@ -24,6 +24,24 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
   </head>
   <body>
@@ -39,5 +57,73 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        // Test for placeholder support
+        $.support.placeholder = (function () {
+          var i = document.createElement("input");
+          return "placeholder" in i;
+        })();
+
+        // Hide labels by default if placeholders are supported
+        if ($.support.placeholder) {
+          $(".form-label").each(function () {
+            $(this).addClass("js-hide-label");
+          });
+
+          // Code for adding/removing classes here
+          $(".form-group")
+            .find("input, textarea")
+            .on("keyup blur focus", function (e) {
+              // Cache our selectors
+              var $this = $(this),
+                $label = $this.parent().find("label");
+
+              switch (e.type) {
+                case "keyup":
+                  {
+                    $label.toggleClass("js-hide-label", $this.val() == "");
+                  }
+                  break;
+                case "blur":
+                  {
+                    if ($this.val() == "") {
+                      $label.addClass("js-hide-label");
+                    } else {
+                      $label
+                        .removeClass("js-hide-label")
+                        .addClass("js-unhighlight-label");
+                    }
+                  }
+                  break;
+                case "focus":
+                  {
+                    if ($this.val() !== "") {
+                      $label.removeClass("js-unhighlight-label");
+                    }
+                  }
+                  break;
+                default:
+                  break;
+              }
+            });
+        }
+      });
+    </script>
   </body>
 </html>
