@@ -24,7 +24,8 @@ const connection = mongoose.connection;
     console.log("mongodb Connection Sucess !");
  })
 
-
+ const employeeRouter = require("./routes/employees.js");
+ app.use("/employee",employeeRouter);
  
  app.listen(PORT, () => {
     console.log(`server is up and running on porT: ${PORT}`);
