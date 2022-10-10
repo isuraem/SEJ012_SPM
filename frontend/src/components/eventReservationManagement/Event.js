@@ -103,12 +103,12 @@ function Reservation() {
                 confirmButtonColor: "#1fc191",
               }).then((res) => {
                 if (res.isConfirmed) {
-                  window.location.replace("/viewReservation");
+                  window.location.replace("/viewEvent");
                 }
               });
             })
             .catch((err) => {
-              //var error = err.response.data.error
+              
               Swal.fire({
                 title: "Oops!",
                 text: `${"Customer already has reservation"}`,
@@ -167,7 +167,7 @@ function Reservation() {
     }
   }
 
-  //get date different
+  // date different
   function getDateDiff() {
     var admission = moment(from, "DD-MM-YYYY");
     var discharge = moment(to, "DD-MM-YYYY");
@@ -179,10 +179,7 @@ function Reservation() {
   function calculateRentPerDate() {
     function getRentFirstVehicle() {
       axios
-        .get(
-          `http://localhost:8070/vehicle/searchPerDayRentalPrice/${vehicleType}/${model}`
-        )
-        .then((res) => {
+        .get(`http://localhost:8070/vehicle/searchPerDayRentalPrice/${vehicleType}/${model}`).then((res) => {
           setPerDayCharge(res.data);
           console.log(res.data);
         })
