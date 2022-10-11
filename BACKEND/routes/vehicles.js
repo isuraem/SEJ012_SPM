@@ -28,8 +28,8 @@ router.route("/addVehicle").post((req, res) => {
     const NoOfSeats = req.body.NoOfSeats;
     const RatePDay = req.body.RatePDay;
     const YearsRent = req.body.YearsRent;
-    const vehPic = req.body.imgPath;
-    const vehDoc = req.body.vehDoc;
+    // const vehPic = req.body.imgPath;
+    // const vehDoc = req.body.vehDoc;
 
     const newVehicle = new Vehicle({
 
@@ -69,6 +69,8 @@ router.route("/addVehicle").post((req, res) => {
 })
 
 
+//view vehicle details
+
 router.route("/viewVehicle").get((req,res)=>{
     Vehicle.find().then((Vehicle)=>{
         res.json(Vehicle)
@@ -76,5 +78,107 @@ router.route("/viewVehicle").get((req,res)=>{
         console.log(err)
     })
 })
+
+
+
+//router for delete an Vehicle record
+router.post("/deleteV", async (req, res) => {
+    const VehID = req.body.VehicleID;
+
+
+    if (VehID) {
+        const response = await Vehicle.findOneAndDelete({ VehicleID: VehID }).then(() => {
+            return res.status(200).send({ status: "Success" });
+        }).catch((err) => {
+            console.log(err);
+            return res.status(500).send({ status: "Internal Server Error" });
+        })
+    }else{
+    return res.status(400).send({ status: "Invalid Request" });
+    }
+
+});
+
+
+//update vehicle
+router.route("/updateV/:id").put(async (req, res) => {
+
+
+    let userId = req.params.id;
+    console.log(userId);
+    // console.log("upt data", req.body);
+    const {
+        VehicleRegNo,
+        VehicleModel,
+        VehicleType,
+        VehicleBrand,
+        InsType,
+        InsComName,
+        Transmission,
+        AirC,
+        NoOfSeats,
+        RatePDay,
+        YearsRent } = req.body;
+
+    //const data = req.body;
+    //D structure
+    const updateVehicle = {
+   
+        VehicleRegNo,
+        VehicleModel,
+        VehicleType,
+        VehicleBrand,
+        InsType,
+        InsComName,
+        Transmission,
+        AirC,
+        NoOfSeats,
+        RatePDay,
+        YearsRent
+    }
+
+        console.log(">>>>>>>>>>>>>>>>>>>>;",updateVehicle);
+
+    const update = await Vehicle.findByIdAndUpdate(userId, updateVehicle).then((response) => {
+        console.log("llllllllllll",response);
+        res.status(200).send({ status: "Vehicle Updated" })
+
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send({ status: "Errror with updating data" })
+    })
+    console.log("update unoo...",update);
+
+})
+
+
+
+router.route("/searchPerDayRentalPrice/:vehicle/:model").get((req, res) => {
+
+    let val = req.params.vehicle.trim();
+    let val1 = req.params.model.trim();
+
+
+    //{$regex: "^" + val + ".*"}this will get to the value starting at the begining of list 
+    Vehicle.find({ VehicleType: { $regex: ".*" + val + ".*", $options: 'i' } }).then((vehicles) => {
+        //res.json(rentals)
+        if (vehicles != null) {
+            Vehicle.findOne({ VehicleModel: { $regex: "^" + val1 + ".*", $options: 'i' } }).then((vehicles) => {
+                res.json(vehicles.RatePDay);
+
+            })
+                .catch((err) => {
+                    console.log(err);
+
+                })
+        }
+
+    }).catch((err) => {
+        console.log(err);
+    })
+
+
+})
+
 
 module.exports=router;

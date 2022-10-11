@@ -4,6 +4,8 @@ import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 
 import AddVehicle from './vehicleManagement/vehicleAdd';
 import vehicleList from './vehicleManagement/vehicleList';
+import Footer from '../Footer';
+
 export const Home = () => {
   return (
     <div>
@@ -12,6 +14,7 @@ export const Home = () => {
             <Route path="/vehicle/addVehicle" exact component={AddVehicle} />
             <Route path = "/vehicle/viewVehicle" exact component={vehicleList}/>
             </Switch>
+            <Footer></Footer>
         </Router>
        
 

@@ -117,7 +117,7 @@ function AddVehicle() {
                                 timer: 2000
                             }
                             ).then(() => {
-                                window.location.replace("/vehicle/vehicleList");
+                                window.location.replace("/vehicle/viewVehicle");
 
                             })
 
@@ -403,6 +403,7 @@ function AddVehicle() {
             
             <div class="container input-main-form-emp pt-3">
                 <h2 class="pb-2 pl-3">Add vehicle details</h2>
+
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Owner Details</a>
@@ -504,26 +505,43 @@ function AddVehicle() {
                                                     {message}
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
+                                            {/* <div class="form-group "> */}
+                                                <div class="form-group col-md-6">
                                                 <label class="form-label" for="date">Date</label>
+                                            <input 
+                                                type="date" 
+                                                class="form-control " 
+                                                id="date" 
+                                                placeholder="* Pick Your Date"
+                                                tabindex="4"
+                                                required
+                                                onChange={(e)=>{
+                                                    setDate(e.target.value);
+                                                }}
+                                            />
+                                        {/* </div> */}
+                                        </div>
+
+                                            {/* <div class="form-group ">
+                                                <label class="form-label" for="date">Date</label> */}
                                                 {/* <input type="date" class="form-control" id="date" name="date" placeholder="Date" tabindex="3" required
                                                     // onChange={(e) => {
                                                     //     setDate(e.target.value); // assign value
                                                     // }}
 
                                                 /> */}
-                                                <p class="font-weight-light h-25" style={{ color: "grey" }}>* Pick Your Date </p>
+                                                {/* <p class="font-weight-light h-25" style={{ color: "grey" }}>* Pick Your Date </p>
                                                 <DatePicker required id="rfrom"
                                                     name="rfrom"
 
                                                     onChange={(event) => { setDate(event); }}
                                                     timeFormat={false}
                                                     isValidDate={disablePastDt}
-                                                />
+                                                /> */}
 
 
 
-                                            </div>
+                                            {/* </div> */}
 
 
                                             <div className="row pt-3 pb-4">
@@ -792,11 +810,6 @@ function AddVehicle() {
                                                     })}
                                                 </div>
                                             </div>
-
-
-
-
-
 
 
                                             {/* <div className="row">
