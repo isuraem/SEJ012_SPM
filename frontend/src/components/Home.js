@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-
 import RentalPlacement from "./rentalManagement/rentalPlacement"
 import rentalList from "./rentalManagement/rentalList"
 import Footer from "./Footer";
