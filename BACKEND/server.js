@@ -37,3 +37,6 @@ const connection = mongoose.connection;
 //Vehicle_Routes
 const vehicleRouter = require("./routes/vehicles.js");
 app.use("/vehicle", vehicleRouter);
+
+const vehicleRemoveRouter = require("./routes/removeVehicleController.js");
+app.use("/vehicleRemove", vehicleRemoveRouter);

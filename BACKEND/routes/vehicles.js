@@ -84,7 +84,7 @@ router.route("/viewVehicle").get((req,res)=>{
 //router for delete an Vehicle record
 router.post("/deleteV", async (req, res) => {
     const VehID = req.body.VehicleID;
-
+ console.log("hkugeiyagig",req.body);
 
     if (VehID) {
         const response = await Vehicle.findOneAndDelete({ VehicleID: VehID }).then(() => {
@@ -108,6 +108,7 @@ router.route("/updateV/:id").put(async (req, res) => {
     console.log(userId);
     // console.log("upt data", req.body);
     const {
+        VehicleID,
         VehicleRegNo,
         VehicleModel,
         VehicleType,
@@ -123,7 +124,7 @@ router.route("/updateV/:id").put(async (req, res) => {
     //const data = req.body;
     //D structure
     const updateVehicle = {
-   
+        VehicleID,
         VehicleRegNo,
         VehicleModel,
         VehicleType,
