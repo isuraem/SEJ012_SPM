@@ -60,5 +60,39 @@ router.route("/getEmp/:id").get(async(req,res)=>{
     })
 })
 
+//update employee
+router.route("/updateEmp/:id").post(async(req,res)=>{
+    let empId = req.params.id;
+    const{Name,Address,NIC,DOB,Phone,Email,Gender,JoiningDate,Designation} = req.body;
+
+    const updateEmployee = {
+        Name,
+        Address,
+        NIC,
+        DOB,
+        Phone,
+        Email,
+        Gender,
+        JoiningDate,
+        Designation
+    }
+
+    await Employee.findByIdAndUpdate(empId,updateEmployee).then((employee)=>{
+        res.json(employee)
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
+
+//delete employee
+router.route("/deleteEmp/:id").delete(async(req,res)=>{
+    let empId = req.params.id;
+
+    await Employee.findByIdAndDelete(empId).then((employee)=>{
+        res.json(employee)
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
 
 module.exports = router;
