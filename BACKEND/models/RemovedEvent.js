@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const removedrentalSchema = new Schema({
+const removedeventSchema = new Schema({
 
-    reservationid : {
+    eventid : {
         type : String
     },
     
@@ -71,6 +71,6 @@ const removedrentalSchema = new Schema({
 
 })
 
-const RemovedReservation = mongoose.model("RemovedReservation", removedrentalSchema);
+const RemovedEvent = mongoose.model("RemovedEvent", removedeventSchema);
 
-module.exports = RemovedReservation;
+module.exports = RemovedEvent;

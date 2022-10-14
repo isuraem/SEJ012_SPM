@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Modal, Button } from "react-bootstrap";
 import { useParams } from "react-router";
 import Swal from 'sweetalert2'
+import Eventviewmodal from '../eventReservationManagement/modals/eventView'
 import Header from '../../Header';
 
 
@@ -63,8 +64,7 @@ function ViewEvent() {
     }
 
     const handleViewOnClick = () => {
-        // console.log("req came for modal");
-        // console.log(modalData, "data came for modalllllll");
+
         setModalShow(true);
     }
 
@@ -83,17 +83,17 @@ function ViewEvent() {
 
     }
 
-    //search all completed record after clicking completed button
-    function pendingRecords() {
-        function getPendingReservation() {
-            axios.get("http://localhost:8070/event/searchCompletedEventRecords/").then((res) => {
-                setviewreservation(res.data.reverse());
-            }).catch((error) => {
-                alert(error.message);
-            })
-        }
-        getPendingReservation();
-    }
+    // //search all completed record after clicking completed button
+    // function pendingRecords() {
+    //     function getPendingReservation() {
+    //         axios.get("http://localhost:8070/event/searchCompletedEventRecords/").then((res) => {
+    //             setviewevent(res.data.reverse());
+    //         }).catch((error) => {
+    //             alert(error.message);
+    //         })
+    //     }
+    //     getPendingReservation();
+    // }
 
 
     //search customer nic and package name after the search
@@ -102,7 +102,7 @@ function ViewEvent() {
         if (!isNaN(search.charAt(0))) {
             axios.get(`http://localhost:8070/event/searchEventRecs/${search}`).then((res) => {
 
-                setviewreservation(res.data);
+                setviewevent(res.data);
             }).catch((error) => {
                 alert(error.message);
             })
@@ -110,7 +110,7 @@ function ViewEvent() {
 
             axios.get(`http://localhost:8070/event/searchEventRecordsX/${search}`).then((res) => {
 
-                setviewreservation(res.data);
+                setviewevent(res.data);
             }).catch((error) => {
                 alert(error.message);
 
@@ -119,63 +119,55 @@ function ViewEvent() {
     }
 
 
-    //handle delete from reservation and add to the remove reservation list
-    const deleteReservation = async (data) => {
+    // //handle delete from reservation and add to the remove reservation list
+    // const deleteReservation = async (data) => {
 
-        await axios.post("https://rent-x-api.herokuapp.com/deletedReservations/addRemovedReservation", { data }).then(() => {
+    //     await axios.post("https://rent-x-api.herokuapp.com/deletedReservations/addRemovedReservation", { data }).then(() => {
 
-            Swal.fire({
-                title: "Completed Reservation removed! ",
-                text: "Reservation removed",
-                icon: 'success',
-                confirmButtonColor: "#207159",
+    //         Swal.fire({
+    //             title: "Completed Reservation removed! ",
+    //             text: "Reservation removed",
+    //             icon: 'success',
+    //             confirmButtonColor: "#207159",
 
-            })
+    //         })
 
-            const value = axios.post("http://localhost:8070/event/deleteEvent", modalDataDelete);
+    //         const value = axios.post("http://localhost:8070/event/deleteEvent", modalDataDelete);
 
-            if (value) {
+    //         if (value) {
 
-                Swal.fire({
-                    title: 'Success!',
-                    text: `${"Reservation Deleted Successfully"}`,
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 2000
-                }
-                ).then(() => {
-                    window.location.reload();
-                })
+    //             Swal.fire({
+    //                 title: 'Success!',
+    //                 text: `${"Reservation Deleted Successfully"}`,
+    //                 icon: 'success',
+    //                 showConfirmButton: false,
+    //                 timer: 2000
+    //             }
+    //             ).then(() => {
+    //                 window.location.reload();
+    //             })
 
-            }
+    //         }
 
-        }).catch((err) => {
+    //     }).catch((err) => {
 
-            Swal.fire({
-                title: 'Oops!',
-                text: `${"Reservation not Completed"}`,
-                icon: 'error',
-                showConfirmButton: false,
-                timer: 1500
-            }
-            )
+    //         Swal.fire({
+    //             title: 'Oops!',
+    //             text: `${"Reservation not Completed"}`,
+    //             icon: 'error',
+    //             showConfirmButton: false,
+    //             timer: 1500
+    //         }
+    //         )
 
-        })
+    //     })
 
-    }
+    // }
 
     //refresh the page
     function refreshPage() {
         window.location.reload();
     }
-
-
-
-
-
-    // function refreshPage() {
-    //     window.location.reload();
-    // }
 
 
     return (
@@ -188,7 +180,7 @@ function ViewEvent() {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
-                <TestModal
+                <Eventviewmodal
                     data={modalData}
                     onHide={() => setModalShow(false)}
                 />
@@ -234,21 +226,22 @@ function ViewEvent() {
                             <th class="text">To</th>
                             <th class="text-center">Total</th>
                             <th class="text-right">Status</th>
+                            <th class="text-center">Action</th>
                            
                         </tr>
                     </thead>
                     <tbody>
-                        {viewevent.map((events) => {
+                        {viewevent.map((reservations) => {
                             return (
                                 <tr>
-                                    <td class="text" >{events.customername}</td>
-                                    <td class="text">{events.customernic}</td>
-                                    <td class="text">{events.packagename}</td>
-                                    <td class="text">{events.eventtype}</td>
-                                    <td class="text">{moment(events.from).format('YYYY-MMMM-DD')}</td>
-                                    <td class="text">{moment(events.to).format('YYYY-MMMM-DD')}</td>
-                                    <td class="text-right">{events.totalreservation.toFixed(2)}</td>
-                                    <td class="text-right">{events.status}</td>
+                                <td class="text" onClick={() => openModal(reservations)} data-toggle="tooltip" data-placement="right" title="Click to view reservation" className="view-td">{reservations.customername}</td>
+                                    <td class="text">{reservations.customernic}</td>
+                                    <td class="text">{reservations.packagename}</td>
+                                    <td class="text">{reservations.eventtype}</td>
+                                    <td class="text">{moment(reservations.from).format('YYYY-MMMM-DD')}</td>
+                                    <td class="text">{moment(reservations.to).format('YYYY-MMMM-DD')}</td>
+                                    <td class="text-right">{reservations.totalreservation.toFixed(2)}</td>
+                                    <td class="text-right">{reservations.status}</td>
                                    
                                         
                                 </tr>
@@ -258,7 +251,7 @@ function ViewEvent() {
                 </table>
             </div>
 
-            <Modal show={modalDeleteConfirm} size="md"
+            {/* <Modal show={modalDeleteConfirm} size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header closeButton>
@@ -284,7 +277,7 @@ function ViewEvent() {
                     </div>
                 </Modal.Footer>
             </Modal>
-            {/* modal for display while loading or on error */}
+            modal for display while loading or on error */}
             <Modal show={modalLoading} size="sm"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
@@ -311,8 +304,8 @@ function ViewEvent() {
                 </Modal.Footer>
             </Modal>
 
-            {/* modal for update the data of employee */}
-            <Modal
+            {/* modal for update the data of Event */}
+            {/* <Modal
                 show={modalUpdate}
                 onHide={() => setModalUpdate(false)}
                 size="lg"
@@ -323,7 +316,7 @@ function ViewEvent() {
                     data={modalDataUpdate}
                     onHide={() => setModalUpdate(false)}
                 />
-            </Modal>
+            </Modal> */}
 
 
            
