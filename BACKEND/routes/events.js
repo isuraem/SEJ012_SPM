@@ -61,10 +61,10 @@ router.route("/getEvent/:RID").get(async (req, res) => {
 
     let RID = req.params.RID;
 
-    const Event = await Event.findOne({ eventid: RID })
-        .then((Event) => {
-            if (Event != null) {
-                res.status(200).send({ status: "Event fetched", Event: Event })
+    const events = await Event.findOne({ eventid: RID })
+        .then((events) => {
+            if (events != null) {
+                res.status(200).send({ status: "Event fetched", events: events })
 
             } else {
                 res.status(500).send({ status: "Error with get Event", error: err.message });

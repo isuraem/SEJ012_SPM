@@ -5,7 +5,8 @@ import moment from 'moment';
 import { Modal, Button } from "react-bootstrap";
 import { useParams } from "react-router";
 import Swal from 'sweetalert2'
-import Eventviewmodal from '../eventReservationManagement/modals/eventView'
+import Eventviewmodal from '../eventReservationManagement/modals/eventView';
+import UpdateEventModal from '../eventReservationManagement/modals/updateEvent'
 import Header from '../../Header';
 
 
@@ -97,7 +98,7 @@ function ViewEvent() {
 
 
     //search customer nic and package name after the search
-    function searchReservation(e) {
+    function searchEvent(e) {
         e.preventDefault();
         if (!isNaN(search.charAt(0))) {
             axios.get(`http://localhost:8070/event/searchEventRecs/${search}`).then((res) => {
@@ -211,7 +212,13 @@ function ViewEvent() {
                     <div className="col-md-8"></div>
                     <div className="col">
                         <div class="input-group input-group-search">
-                           
+                        <div class="searchbar">
+                                <form onSubmit={searchEvent} >
+                                    <input class="search_input" type="text" name="search" placeholder="Search..."
+                                        value={search} onChange={(event) => { setSearch(event.target.value) }} require />
+                                    <button class="btn search_icon" id="submit" name="submit" type="submit" ><i class="fa fa-search" ></i></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,7 +249,15 @@ function ViewEvent() {
                                     <td class="text">{moment(reservations.to).format('YYYY-MMMM-DD')}</td>
                                     <td class="text-right">{reservations.totalreservation.toFixed(2)}</td>
                                     <td class="text-right">{reservations.status}</td>
-                                   
+                                    <td class="text">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+
+                                            <Link class="btn btn-light btn-sm" onClick={() => openModalUpdate(reservations)}  >update</Link>
+
+                                            {/* <Link class="btn btn-danger btn-sm" onClick={() => { openModalDelete(reservations) }} role="button"> remove</Link> */}
+
+                                        </div>
+                                        </td>
                                         
                                 </tr>
                             );
@@ -305,18 +320,18 @@ function ViewEvent() {
             </Modal>
 
             {/* modal for update the data of Event */}
-            {/* <Modal
+            <Modal
                 show={modalUpdate}
                 onHide={() => setModalUpdate(false)}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
-                <UpdateReservationModal
+                <UpdateEventModal
                     data={modalDataUpdate}
                     onHide={() => setModalUpdate(false)}
                 />
-            </Modal> */}
+            </Modal>
 
 
            
