@@ -61,7 +61,7 @@ router.route("/getEmp/:id").get(async(req,res)=>{
 })
 
 //update employee
-router.route("/updateEmp/:id").post(async(req,res)=>{
+router.route("/updateEmp/:id").put(async(req,res)=>{
     let empId = req.params.id;
     const{Name,Address,NIC,DOB,Phone,Email,Gender,JoiningDate,Designation} = req.body;
 
