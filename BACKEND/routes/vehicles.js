@@ -153,6 +153,132 @@ router.route("/updateV/:id").put(async (req, res) => {
 })
 
 
+//vehile report router
+
+router.route("/reportV/:dateFrom/:dateTo").get(async (req, res) => {
+
+    console.log("report -----",req);
+
+    const dateFrom = moment(req.params.dateFrom.trim()).format('YYYY-MM-DD');
+    const dateTo = moment(req.params.dateTo.trim()).format('YYYY-MM-DD');
+    
+
+    console.log("report function", dateFrom, dateTo);
+
+
+
+    Vehicle.find({
+        $and: [{
+
+            Date: { $gte: dateFrom, $lte: dateTo },
+           
+
+
+        }]
+
+    }).then((vehicles) => {
+        res.json(vehicles);
+    }).catch((err) => {
+        console.log(err);
+    })
+
+
+
+})
+
+
+//searh records
+router.route("/searchV").post(async (req, res) => {
+    console.log("search data",req.body);
+    let val = req.body.data.trim();
+    let search = req.body.data;
+
+    if (!isNaN(search)) {
+        if (search < 11) {
+
+            try {
+                const response = await Vehicle.find({ YearsRent: { $regex: val + '$', $options: 'i' } });
+                // console.log("search results", response);
+                return res.status(200).send({ status: "Success", data: response });
+            } catch (error) { 
+
+                console.log("something went wrong!!");
+                return { ok: flase };
+
+            }
+
+
+        }
+        try {
+            const response = await Vehicle.find({ VehicleRegNo: { $regex: '.*' + val + '.*', $options: 'i' } });
+            // console.log("search results", response);
+            return res.status(200).send({ status: "Success", data: response });
+        } catch (error) {
+
+            console.log("something went wrong!!");
+            return { ok: flase };
+
+        }
+
+    } else if (isNaN(search)) {
+        try {
+            const response = await Vehicle.find({ VehicleRegNo: { $regex: '.*' + val + '.*', $options: 'i' } });
+
+            if (response.length > 0) {
+                return res.status(200).send({ status: "Success", data: response });
+            }
+
+        } catch (error) {
+
+            console.log("something went wrong!!");
+            return { ok: flase };
+
+        }
+
+    }
+
+    try {
+        const response = await Vehicle.find({ VehicleType: { $regex: '.*' + val + '.*', $options: 'i' } });
+        if (response.length > 0) {
+            return res.status(200).send({ status: "Success", data: response });
+        }
+        else {
+            try {
+                const response = await Vehicle.find({ VehicleModel: { $regex: '.*' + val + '.*', $options: 'i' } });
+                if (response.length > 0) {
+                    return res.status(200).send({ status: "Success", data: response });
+                } else {
+                    try {
+                        const response = await Vehicle.find({ VehicleBrand: { $regex: '.*' + val + '.*', $options: 'i' } });
+                        return res.status(200).send({ status: "Success", data: response });
+
+                    } catch (err) {
+                        console.log("something went wrong!!");
+                        return { ok: flase };
+
+
+                    }
+                }
+
+            } catch (err) {
+                console.log("something went wrong!!");
+                return { ok: flase };
+
+
+            }
+        }
+
+    } catch (error) {
+
+        console.log("something went wrong!!");
+        return { ok: flase };
+
+    }
+
+
+
+
+})
 
 router.route("/searchPerDayRentalPrice/:vehicle/:model").get((req, res) => {
 

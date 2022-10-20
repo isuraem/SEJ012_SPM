@@ -4,6 +4,8 @@ import { Modal, Button } from "react-bootstrap";
 import { withRouter } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
+import TestModal from './ViewVehicle';
+
 import UpdateVehicleModal from "./updateVehicleModal";
 import Header from "../../Header";
 
@@ -11,14 +13,15 @@ import Header from "../../Header";
 
 function VehicleList() {
 
-
-    // const [search, setSearch] = useState("");
+    
 
     const [vehicles, setVehicles] = useState([]);
 
+    const [modalData, setData] = useState([]);
+    const [modalShow, setModalShow] = useState(false);
+
     const [modalDataDelete, setModalDataDelete] = useState([]);
     const [modalDeleteConfirm, setModalDeleteConfirm] = useState(false);
-
 
 
     const [modalDataUpdate, setModalDataUpdate] = useState([]);
@@ -34,11 +37,13 @@ function VehicleList() {
 
 
                 setVehicles(res.data.reverse());
+
                 //console.log("Data recieved");
 
             }).catch((error) => {
                 // alert(error.message);
                 console.log("f354754",error);
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -53,6 +58,8 @@ function VehicleList() {
         getVehicles();
 
     }, []);
+
+
 
     const deleteVehicle = async (data) => {
 console.log("----------------",data);
@@ -82,9 +89,6 @@ console.log("----------------",data);
                 ).then(() => {
                     window.location.reload();
                 })
-
-
-
             }
 
         }).catch((err) => {
@@ -102,9 +106,20 @@ console.log("----------------",data);
             alert(err.response.data.errorCode)
 
         })
-
     }
 
+
+    const openModal = (vehicle) => {
+        setData(vehicle);
+        handleViewOnClick();
+    }
+
+
+    const handleViewOnClick = () => {
+        //console.log("req came for modal");
+        // console.log(modalData, "data came for modalllllll");
+        setModalShow(true);
+    }
 
     const openModalDelete = (data) => {
         setModalDataDelete(data);
@@ -120,10 +135,26 @@ console.log("----------------",data);
     }
 
 
+
+   
+
     return (
 
         <div className="page-component-body">
             <Header></Header>
+
+            <Modal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <TestModal
+                    data={modalData}
+                    onHide={() => setModalShow(false)}
+                />
+            </Modal>
 
 
             <div className="table-emp">
@@ -136,9 +167,13 @@ console.log("----------------",data);
                             Add Vehicle
                         </button>
                     </a>
+                    <a href="/vehicle/view" class="float-right ml-4">
+                        <button class="btn btn-ok white">
+                            Removed Vehicle
+                        </button>
+                    </a>
                    
                 </div>
-            
 
 
 
@@ -161,7 +196,7 @@ console.log("----------------",data);
 
                             return (
                                 <tr>
-                                     <td class="text-center">
+                                     <td onClick={() => openModal(vehicles)} data-toggle="tooltip" data-placement="right" title="Click to view details" className="view-td">
                                         {vehicles.VehicleRegNo}
                                     </td>
                                     <td class="text-center">{vehicles.VehicleBrand}</td>
@@ -169,7 +204,7 @@ console.log("----------------",data);
                                     <td class="text-center">{vehicles.VehicleType}</td>
                                     <td class="text-right">{vehicles.RatePDay}</td>
                                     <td class="text-right">{vehicles.YearsRent}</td>
-                                     <td class="text-center">
+                                    <td class="text-center">
                                         <button
                                             class="btn btn-light btn-sm"
                                             onClick={() => openModalUpdate(vehicles)}
@@ -185,12 +220,8 @@ console.log("----------------",data);
                                         </button>
 
                                     </td>
-                                  
-
                                 </tr>
                             );
-
-
                         })}
 
 
@@ -201,10 +232,6 @@ console.log("----------------",data);
            
 
    
-    
-
-
-
         {/* modal for delete employee record */}
         <Modal show={modalDeleteConfirm} onHide={() => setModalDeleteConfirm(false)} size="md"
         aria-labelledby="contained-modal-title-vcenter"
@@ -246,7 +273,6 @@ console.log("----------------",data);
             onHide={() => setModalUpdate(false)}
         />
         </Modal>
-
 
         </div>
 
