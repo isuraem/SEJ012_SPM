@@ -26,6 +26,12 @@ connection.once("open", () => {
 //Event_Routes
 const eventRouter = require("./routes/events.js");
 app.use("/event", eventRouter);
+//Event_Routes_removed
+// const vehicleRouter = require("./routes/vehicleController");
+// app.use("/vehicle", vehicleRouter);
+
+const removedEventRouter = require("./routes/removedReservation");
+app.use("/removedEvent", removedEventRouter);
 
 
 app.listen(PORT, () => {
