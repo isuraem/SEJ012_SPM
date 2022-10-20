@@ -61,7 +61,7 @@ function AddVehicle() {
         if (isValid && teleValid && NICValid && YearsValid) {
 
             
-            }
+            
 
             //console.log("image eka", file);
 
@@ -135,9 +135,12 @@ function AddVehicle() {
                             })
                         })
 
-
+                    }
               
     }
+
+
+
 
     //disable past dates
     const yesterday = moment().subtract(1, 'day');
@@ -226,7 +229,7 @@ function AddVehicle() {
 
     //validate function
     const NICValidation = () => {
-
+console.log("NIC",OwnerNIC);
         const NICErr = {}; //State
         let NICValid = true; //setting flag
 
@@ -342,6 +345,7 @@ function AddVehicle() {
     const NICRegex2 = /^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/;
 
     const validateNIC = (event) => {
+
         const NIC = event.target.value;
         if (NICRegex1.test(NIC)) {
             setNICIsValid(true);
@@ -362,6 +366,7 @@ function AddVehicle() {
     const VehRegex2 = /^[A-Z0-9][A-Z0-9][A-Z0-9]-[0-9][0-9][0-9][0-9]$/;
 
     const validateRegNo = (event) => {
+
         const RegNo = event.target.value;
         if (VehRegex1.test(RegNo)) {
             setRegIsValid(true);
@@ -517,6 +522,7 @@ function AddVehicle() {
                                                 required
                                                 onChange={(e)=>{
                                                     setDate(e.target.value);
+                                            
                                                 }}
                                             />
                                         {/* </div> */}
