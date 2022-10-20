@@ -111,7 +111,7 @@ function EventReport() {
                 const pack = "null"
                 const event = "null"
                
-                axios.get(`https://rent-x-api.herokuapp.com/deletedReservations/generateReport/${fromDate}/${toDate}/${pack}/${event}`).then((res) => { 
+                axios.get(`http://localhost:8070/removedEvent/generateReport/${fromDate}/${toDate}/${pack}/${event}`).then((res) => { 
                     console.log(res.data);
                     setviewevent(res.data);
                 }).catch((error) => {
@@ -129,7 +129,7 @@ function EventReport() {
             else if (eventtype == "") {
                 const evet = "null"
               
-                axios.get(`https://rent-x-api.herokuapp.com/deletedReservations/generateReport/${fromDate}/${toDate}/${packagename}/${evet}`).then((res) => { 
+                axios.get(`http://localhost:8070/removedEvent/generateReport/${fromDate}/${toDate}/${packagename}/${evet}`).then((res) => { 
                     console.log(res.data);
                     setviewevent(res.data);
                 }).catch((error) => {
@@ -146,7 +146,7 @@ function EventReport() {
             } else if (packagename == "") {
                 const ptype = "null"
                
-                axios.get(`https://rent-x-api.herokuapp.com/deletedReservations/generateReport/${fromDate}/${toDate}/${ptype}/${eventtype}`).then((res) => { 
+                axios.get(`http://localhost:8070/removedEvent/generateReport/${fromDate}/${toDate}/${ptype}/${eventtype}`).then((res) => { 
                     console.log(res.data);
                     setviewevent(res.data);
                 }).catch((error) => {
@@ -164,7 +164,7 @@ function EventReport() {
             } else {
 
                
-                axios.get(`https://rent-x-api.herokuapp.com/deletedReservations/generateReport/${fromDate}/${toDate}/${packagename}/${eventtype}`).then((res) => { 
+                axios.get(`http://localhost:8070/removedEvent/generateReport/${fromDate}/${toDate}/${packagename}/${eventtype}`).then((res) => { 
                     console.log(res.data);
                     setviewevent(res.data);
                 }).catch((error) => {
@@ -326,9 +326,9 @@ function EventReport() {
                     </Pdf>
                     <div ref={ref} className="pl-4">
                         <div className="report">
-                            <img src="https://i.ibb.co/7S45yMk/reservation-Report.jpg" />
+                            {/* <img src="https://i.ibb.co/7S45yMk/reservation-Report.jpg" /> */}
 
-                            <table class="table table-hover">
+                            <table class="table table-hover"> 
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>From</th>

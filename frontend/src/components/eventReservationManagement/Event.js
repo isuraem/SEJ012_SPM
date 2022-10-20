@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DatePicker from "react-datetime";
 import moment from "moment";
 import "react-datetime/css/react-datetime.css";
 import Swal from "sweetalert2";
 import Header from "../../Header";
-
 
 function Reservation() {
   // disable past dates
@@ -21,7 +20,6 @@ function Reservation() {
     return current.isBefore(today);
   };
 
-  let history = useHistory();
 
   const [customername, setcustomername] = useState("");
   const [contactnumber, setcontactnumber] = useState("");
@@ -36,6 +34,10 @@ function Reservation() {
   const [advancedpayment, setadvancedpayment] = useState("");
   const [totalreservation, settotalreservation] = useState("");
   const [status, setstatus] = useState("");
+  // const [penaltyDay, setpenaltyDay] = useState("initial value");
+  // const [penaltyCharge, setpenaltyCharge] = useState("initial value");
+  // const [returnDay, setreturnDay] = useState("initial value");
+
 
   const [vehicleType, setVehicleType] = useState("");
   const [model, setModel] = useState("");
@@ -59,7 +61,6 @@ function Reservation() {
 
   //send data to data base after submit the form
   function sendData(e) {
-    e.preventDefault();
     console.log("from date", from);
     const finalpay = (document.getElementById("FinalreservationPrice").value =
       document.getElementById("total").value - advancedpayment);
@@ -78,6 +79,7 @@ function Reservation() {
         confirmButtonColor: "#1fc191",
       }).then((result) => {
         if (result.isConfirmed) {
+
           const newReservation = {
             customername,
             contactnumber,
@@ -91,7 +93,7 @@ function Reservation() {
             discount,
             advancedpayment,
             totalreservation,
-            status,
+            status
           };
 
           axios
@@ -108,7 +110,6 @@ function Reservation() {
               });
             })
             .catch((err) => {
-              
               Swal.fire({
                 title: "Oops!",
                 text: `${"Customer already has reservation"}`,
@@ -179,7 +180,10 @@ function Reservation() {
   function calculateRentPerDate() {
     function getRentFirstVehicle() {
       axios
-        .get(`http://localhost:8070/vehicle/searchPerDayRentalPrice/${vehicleType}/${model}`).then((res) => {
+        .get(
+          `http://localhost:8070/vehicle/searchPerDayRentalPrice/${vehicleType}/${model}`
+        )
+        .then((res) => {
           setPerDayCharge(res.data);
           console.log(res.data);
         })
@@ -472,741 +476,732 @@ function Reservation() {
   }
 
   return (
-  
     <div className="container ">
-    <div className="page-component-body pl-0">
-      <Header></Header>
-      <div class="container input-main-form pl-5">
-        <br></br>
-        <h3> Event Reservation</h3>
-        <br></br>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              id="home-tab"
-              data-toggle="tab"
-              href="#home"
-              role="tab"
-              aria-controls="home"
-              aria-selected="true"
+      <div className="page-component-body pl-0">
+        <Header></Header>
+        <div class="container input-main-form pl-5">
+          <br></br>
+          <h3> Event Reservation</h3>
+          <br></br>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="home-tab"
+                data-toggle="tab"
+                href="#home"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+              >
+                Package
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link "
+                id="profile-tab"
+                data-toggle="tab"
+                href="#profile"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="false"
+              >
+                Reservation
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div className="tab-content-emp"></div>
+            <div
+              class="tab-pane fade show active"
+              id="home"
+              role="tabpanel"
+              aria-labelledby="home-tab"
             >
-              Package
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link "
-              id="profile-tab"
-              data-toggle="tab"
-              href="#profile"
-              role="tab"
-              aria-controls="profile"
-              aria-selected="false"
-            >
-              Reservation
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div className="tab-content-emp"></div>
-          <div
-            class="tab-pane fade show active"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <form
-                    onSubmit={addtemporaryilyData}
-                    id="contact-form"
-                    class="form"
-                  >
-                    <div class="form-group">
-                      <label class="form-label" for="packageName">
-                        Package Name
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control formInput"
-                        id="packageName"
-                        name="packageName"
-                        placeholder="Package 1"
-                        //tabindex="1"
-                        required
-                        onChange={(event) => {
-                          setpackagename(event.target.value);
-                        }}
-                      />
-                    </div>
-                    <br></br>
-                    <div class="row">
-                      <div class="form-group col-md-4">
-                        <label class="form-label-emp" for="from">
-                          From
-                        </label>
-                        <DatePicker
-                          //type="date"
-                          class="form-control formInput"
-                          id="from"
-                          name="from"
-                          placeholder=""
-                          //tabindex="5"
-                          required
-                          onChange={(event) => {
-                            setfrom(event);
-                          }}
-                          timeFormat={false}
-                          isValidDate={disablePastDt}
-                        />
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label class="form-label-emp" for="to">
-                          To
-                        </label>
-                        <DatePicker
-                          required
-                          class="form-control formInput"
-                          id="to"
-                          name="to"
-                          placeholder=""
-                          timeFormat={false}
-                          isValidDate={disablePastDt}
-                          onChange={(event) => {
-                            setto(event);
-                          }}
-                        />
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label class="form-label" for="dateRange">
-                          Date Range
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form
+                      onSubmit={addtemporaryilyData}
+                      id="contact-form"
+                      class="form"
+                    >
+                      <div class="form-group">
+                        <label class="form-label" for="packageName">
+                          Package Name
                         </label>
                         <input
                           type="text"
                           class="form-control formInput"
-                          id="dateRange"
-                          name="dateRange"
-                          placeholder="Date Range"
-                          //tabindex="2"
-                          disabled
-                          //pattern="[0-9]"
+                          id="packageName"
+                          name="packageName"
+                          placeholder="Package 1"
+                          //tabindex="1"
+                          required
+                          onChange={(event) => {
+                            setpackagename(event.target.value);
+                          }}
                         />
                       </div>
-                    </div>
-                    <br></br>
+                      <br></br>
+                      <div class="row">
+                        <div class="form-group col-md-4">
+                          <label class="form-label-emp" for="from">
+                            From
+                          </label>
+                          <DatePicker
+                            //type="date"
+                            class="form-control formInput"
+                            id="from"
+                            name="from"
+                            placeholder=""
+                            //tabindex="5"
+                            required
+                            onChange={(event) => {
+                              setfrom(event);
+                            }}
+                            timeFormat={false}
+                            isValidDate={disablePastDt}
+                          />
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label class="form-label-emp" for="to">
+                            To
+                          </label>
+                          <DatePicker
+                            required
+                            class="form-control formInput"
+                            id="to"
+                            name="to"
+                            placeholder=""
+                            timeFormat={false}
+                            isValidDate={disablePastDt}
+                            onChange={(event) => {
+                              setto(event);
+                            }}
+                          />
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label class="form-label" for="dateRange">
+                            Date Range
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="dateRange"
+                            name="dateRange"
+                            placeholder="Date Range"
+                            //tabindex="2"
+                            disabled
+                            //pattern="[0-9]"
+                          />
+                        </div>
+                      </div>
+                      <br></br>
 
-                    <div class="row">
-                      <div class="form-group col-md-4" id="hide1">
-                        <label class="form-label-emp" for="vehicleType">
-                          Vehicle Type
-                        </label>
-                        <select
-                          id="vehicleType"
-                          className="form-control "
-                          //tabindex="3"
-                          onChange={(e) => {
-                            setVehicleType(e.target.value);
-                            searchModel();
-                            nodate();
-                          }}
-                          required
+                      <div class="row">
+                        <div class="form-group col-md-4" id="hide1">
+                          <label class="form-label-emp" for="vehicleType">
+                            Vehicle Type
+                          </label>
+                          <select
+                            id="vehicleType"
+                            className="form-control "
+                            //tabindex="3"
+                            onChange={(e) => {
+                              setVehicleType(e.target.value);
+                              searchModel();
+                              nodate();
+                            }}
+                            required
+                          >
+                            <option>choose</option>
+                            <option id="type1" value="Car">
+                              Car
+                            </option>
+                            <option id="type2" value="Van">
+                              Van
+                            </option>
+                            <option id="type3" value="Bus">
+                              Bus
+                            </option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-4" id="hide2">
+                          <label class="form-label-emp" for="vehicleModel">
+                            Vehicle Model
+                          </label>
+                          <select
+                            id="vehicleModel"
+                            className="form-control "
+                            tabindex="4"
+                            //required
+                            onChange={(event) => {
+                              setModel(event.target.value);
+                            }}
+                          >
+                            <option>choose</option>
+                            <option id="model1"></option>
+                            <option id="model2"></option>
+                            <option id="model3"></option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2" id="hide3">
+                          <label class="form-label-emp" for="noVehiclehide1">
+                            No of Vehicle
+                          </label>
+                          <input
+                            type="number"
+                            class="form-control formInput"
+                            id="noVehiclehide1"
+                            name="noVehiclehide1"
+                            placeholder="Count"
+                            min="1"
+                            //tabindex="5"
+                            pattern="[0-9]"
+                            required
+                            onChange={(event) => {
+                              setno1(event.target.value);
+                              unitprice();
+                            }}
+                          />
+                        </div>
+                        <div class="form-group col-md-2" id="hide4">
+                          <label class="form-label-emp" for="perDayCharge">
+                            Price
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="perDayCharge"
+                            name="perDayCharge"
+                            placeholder="0.00"
+                            //onChange={(event) => { setPerDayCharge(event.target.value); }}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div
+                          class="form-group col-md-4"
+                          style={{ display: "none" }}
+                          id="hide11"
                         >
-                          <option>choose</option>
-                          <option id="type1" value="Car">
-                            Car
-                          </option>
-                          <option id="type2" value="Van">
-                            Van
-                          </option>
-                          <option id="type3" value="Bus">
-                            Bus
-                          </option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-4" id="hide2">
-                        <label class="form-label-emp" for="vehicleModel">
-                          Vehicle Model
-                        </label>
-                        <select
-                          id="vehicleModel"
-                          className="form-control "
-                          tabindex="4"
-                          //required
-                          onChange={(event) => {
-                            setModel(event.target.value);
-                          }}
+                          <label class="form-label-emp" for="vehicleType1">
+                            Vehicle Type
+                          </label>
+                          <select
+                            id="vehicleType1"
+                            className="form-control "
+                            //tabindex="3"
+                            onChange={(e) => {
+                              setVehicleType1(e.target.value);
+                              searchModel1();
+                            }}
+                            required
+                          >
+                            <option>choose</option>
+                            <option id="type11" value="Car">
+                              Car
+                            </option>
+                            <option id="type22" value="Van">
+                              Van
+                            </option>
+                            <option id="type33" value="Bus">
+                              Bus
+                            </option>
+                          </select>
+                        </div>
+                        <div
+                          class="form-group col-md-4"
+                          style={{ display: "none" }}
+                          id="hide22"
                         >
-                          <option>choose</option>
-                          <option id="model1"></option>
-                          <option id="model2"></option>
-                          <option id="model3"></option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-2" id="hide3">
-                        <label class="form-label-emp" for="noVehiclehide1">
-                          No of Vehicle
-                        </label>
-                        <input
-                          type="number"
-                          class="form-control formInput"
-                          id="noVehiclehide1"
-                          name="noVehiclehide1"
-                          placeholder="Count"
-                          min="1"
-                          //tabindex="5"
-                          pattern="[0-9]"
-                          required
-                          onChange={(event) => {
-                            setno1(event.target.value);
-                            unitprice();
-                          }}
-                        />
-                      </div>
-                      <div class="form-group col-md-2" id="hide4">
-                        <label class="form-label-emp" for="perDayCharge">
-                          Price
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="perDayCharge"
-                          name="perDayCharge"
-                          placeholder="0.00"
-                          //onChange={(event) => { setPerDayCharge(event.target.value); }}
-                          disabled
-                        />
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div
-                        class="form-group col-md-4"
-                        style={{ display: "none" }}
-                        id="hide11"
-                      >
-                        <label class="form-label-emp" for="vehicleType1">
-                          Vehicle Type
-                        </label>
-                        <select
-                          id="vehicleType1"
-                          className="form-control "
-                          //tabindex="3"
-                          onChange={(e) => {
-                            setVehicleType1(e.target.value);
-                            searchModel1();
-                          }}
-                          required
+                          <label class="form-label-emp" for="vehicleModel">
+                            Vehicle Model
+                          </label>
+                          <select
+                            id="vehicleModelnew"
+                            className="form-control "
+                            //tabindex="4"
+                            onChange={(event) => {
+                              setModel1(event.target.value);
+                            }}
+                          >
+                            <option>choose</option>
+                            <option id="model11"></option>
+                            <option id="model22"></option>
+                            <option id="model33"></option>
+                          </select>
+                        </div>
+                        <div
+                          class="form-group col-md-2"
+                          style={{ display: "none" }}
+                          id="hide33"
                         >
-                          <option>choose</option>
-                          <option id="type11" value="Car">
-                            Car
-                          </option>
-                          <option id="type22" value="Van">
-                            Van
-                          </option>
-                          <option id="type33" value="Bus">
-                            Bus
-                          </option>
-                        </select>
-                      </div>
-                      <div
-                        class="form-group col-md-4"
-                        style={{ display: "none" }}
-                        id="hide22"
-                      >
-                        <label class="form-label-emp" for="vehicleModel">
-                          Vehicle Model
-                        </label>
-                        <select
-                          id="vehicleModelnew"
-                          className="form-control "
-                          //tabindex="4"
-                          onChange={(event) => {
-                            setModel1(event.target.value);
-                          }}
+                          <label class="form-label-emp" for="noVehiclehide2">
+                            No of Vehicle
+                          </label>
+                          <input
+                            type="number"
+                            class="form-control formInput"
+                            id="noVehiclehide2"
+                            name="noVehiclehide2"
+                            placeholder="Count"
+                            min="1"
+                            //tabindex="5"
+                            pattern="[0-9]"
+                            required
+                            onChange={(event) => {
+                              setno2(event.target.value);
+                              unitpricesecond();
+                            }}
+                          />
+                        </div>
+                        <div
+                          class="form-group col-md-2"
+                          style={{ display: "none" }}
+                          id="hide44"
                         >
-                          <option>choose</option>
-                          <option id="model11"></option>
-                          <option id="model22"></option>
-                          <option id="model33"></option>
-                        </select>
+                          <label class="form-label-emp" for="perDayCharge1">
+                            Price
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="perDayCharge1"
+                            name="perDayCharge1"
+                            placeholder="0.00"
+                            //onChange={(event) => { setPerDayCharge1(event.target.value); }}
+                            disabled
+                          />
+                        </div>
                       </div>
-                      <div
-                        class="form-group col-md-2"
-                        style={{ display: "none" }}
-                        id="hide33"
-                      >
-                        <label class="form-label-emp" for="noVehiclehide2">
-                          No of Vehicle
-                        </label>
-                        <input
-                          type="number"
-                          class="form-control formInput"
-                          id="noVehiclehide2"
-                          name="noVehiclehide2"
-                          placeholder="Count"
-                          min="1"
-                          //tabindex="5"
-                          pattern="[0-9]"
-                          required
-                          onChange={(event) => {
-                            setno2(event.target.value);
-                            unitpricesecond();
-                          }}
-                        />
-                       
+                      <div class="row" id="btnAdd1">
+                        <div class="form-group col-md-2">
+                          <input
+                            type="button"
+                            class="btn btn-info"
+                            id="entry"
+                            value=" Add Vehicles"
+                            onClick={showDelivery}
+                          />
+                        </div>
                       </div>
-                      <div
-                        class="form-group col-md-2"
-                        style={{ display: "none" }}
-                        id="hide44"
-                      >
-                        <label class="form-label-emp" for="perDayCharge1">
-                          Price
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="perDayCharge1"
-                          name="perDayCharge1"
-                          placeholder="0.00"
-                          //onChange={(event) => { setPerDayCharge1(event.target.value); }}
-                          disabled
-                        />
+                      <br></br>
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="discount">
+                            Discount
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="discount"
+                            name="discount"
+                            placeholder="Discount (5)"
+                            //tabindex="6"
+                            //pattern="[0-9]"
+                            //required
+                            onChange={(event) => {
+                              setdiscount(event.target.value);
+                            }}
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label-emp" for="totalreservation">
+                            Total Price
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="totalreservation"
+                            name="totalreservation"
+                            placeholder="0.00"
+                            //tabindex="7"
+                            //required
+
+                            onChange={(event) => {
+                              settotalreservation(event.target.value);
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div class="row" id="btnAdd1">
-                      <div class="form-group col-md-2">
-                        <input
-                          type="button"
-                          class="btn btn-info"
-                          id="entry"
-                          value=" Add Vehicles"
-                          onClick={showDelivery}
-                        />
+                      <div className="row">
+                        <div class="col py-3 text-center" id="pentry">
+                          <input
+                            type="button"
+                            class="btn btn-info-total"
+                            id="entry1"
+                            value=" Payment "
+                            onClick={(CalcFinalPayment, UpdatedPenaltyDays)}
+                          />
+                        </div>
+                        <div
+                          className="col py-3 text-center"
+                          style={{ display: "none" }}
+                          id="create"
+                        >
+                          <button
+                            type="submit"
+                            className="btn btn-ok" /*onClick ="sendpackageName();"*/
+                          >
+                            Create
+                          </button>
+                        </div>
+                        <div
+                          className="col py-3 text-center"
+                          style={{ display: "none" }}
+                          id="reset"
+                        >
+                          <button
+                            type="reset"
+                            className="btn btn-reset"
+                            onClick={resetclick}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </form>
+
                     <br></br>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="discount">
-                          Discount
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="discount"
-                          name="discount"
-                          placeholder="Discount (5)"
-                          //tabindex="6"
-                          //pattern="[0-9]"
-                          //required
-                          onChange={(event) => {
-                            setdiscount(event.target.value);
-                          }}
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label-emp" for="totalreservation">
-                          Total Price
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="totalreservation"
-                          name="totalreservation"
-                          placeholder="0.00"
-                          //tabindex="7"
-                          //required
-
-                          onChange={(event) => {
-                            settotalreservation(event.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div class="col py-3 text-center" id="pentry">
-                        <input
-                          type="button"
-                          class="btn btn-info-total"
-                          id="entry1"
-                          value=" Payment "
-                          onClick={(CalcFinalPayment, UpdatedPenaltyDays)}
-                        />
-                      </div>
-                      <div
-                        className="col py-3 text-center"
-                        style={{ display: "none" }}
-                        id="create"
-                      >
-                        <button
-                          type="submit"
-                          className="btn btn-ok" /*onClick ="sendpackageName();"*/
-                        >
-                          Create
-                        </button>
-                      </div>
-                      <div
-                        className="col py-3 text-center"
-                        style={{ display: "none" }}
-                        id="reset"
-                      >
-                        <button
-                          type="reset"
-                          className="btn btn-reset"
-                          onClick={resetclick}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-
-                  <br></br>
+                  </div>
                 </div>
               </div>
+              <div className=" package ml-5">
+                <div class="tab-content-emp"></div>
+                <form>
+                  <br></br>
+                  <center>
+                    <h2>Packages</h2>
+                  </center>
+                  <div class="form-row">
+                    <div class="col-6 form-row-change">
+                      <label class="form-label-reservation" for="rentalStatus">
+                        Package 1:{" "}
+                      </label>
+                    </div>
+                    <div class="col-4 form-row-change1">
+                      <input
+                        type="text"
+                        class="form-control-plaintext"
+                        id="rentalStatus"
+                        value="Car & Van"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div class="form-row ">
+                    <div class="col-6 form-row-change">
+                      <label class="form-label-reservation" for="customer">
+                        Package 2:{" "}
+                      </label>
+                    </div>
+                    <div class="col-4 form-row-change1">
+                      <input
+                        type="text"
+                        class="form-control-plaintext"
+                        id="customer"
+                        value="Van & Bus"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div class="form-row ">
+                    <div class="col-6 form-row-change">
+                      <label class="form-label-reservation" for="vehicle">
+                        Package 3:{" "}
+                      </label>
+                    </div>
+                    <div class="col-4 form-row-change1">
+                      <input
+                        type="text"
+                        class="form-control-plaintext"
+                        id="vehicle"
+                        value="Bus & Car"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div className=" package ml-5">
-              <div class="tab-content-emp"></div>
-              <form>
+
+            <div
+              class="tab-pane fade"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              <div class="container">
                 <br></br>
-                <center>
-                  <h2>Packages</h2>
-                </center>
-                <div class="form-row">
-                  <div class="col-6 form-row-change">
-                    <label class="form-label-reservation" for="rentalStatus">
-                      Package 1:{" "}
-                    </label>
-                  </div>
-                  <div class="col-4 form-row-change1">
-                    <input
-                      type="text"
-                      class="form-control-plaintext"
-                      id="rentalStatus"
-                      value="Car & Van"
-                      readOnly
-                    />
-                  </div>
-                </div>
-                <div class="form-row ">
-                  <div class="col-6 form-row-change">
-                    <label class="form-label-reservation" for="customer">
-                      Package 2:{" "}
-                    </label>
-                  </div>
-                  <div class="col-4 form-row-change1">
-                    <input
-                      type="text"
-                      class="form-control-plaintext"
-                      id="customer"
-                      value="Van & Bus"
-                      readOnly
-                    />
-                  </div>
-                </div>
-                <div class="form-row ">
-                  <div class="col-6 form-row-change">
-                    <label class="form-label-reservation" for="vehicle">
-                      Package 3:{" "}
-                    </label>
-                  </div>
-                  <div class="col-4 form-row-change1">
-                    <input
-                      type="text"
-                      class="form-control-plaintext"
-                      id="vehicle"
-                      value="Bus & Car"
-                      readOnly
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div
-            class="tab-pane fade"
-            id="profile"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-          >
-            <div class="container">
-              <br></br>
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <form onSubmit={sendData} id="contact-form" class="form">
-                    <div class="row">
-                      <br></br>
-                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                        <h3 className="text-left mt-4 mb-3 customersize">
-                          Customer Details
-                        </h3>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="customername">
-                          Customer Name
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="customername"
-                          name="customername"
-                          placeholder="Full Name"
-                          tabindex="1"
-                          required
-                          onChange={(event) => {
-                            setcustomername(event.target.value);
-                          }}
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="customernic">
-                          Customer NIC
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="customernic"
-                          name="customernic"
-                          placeholder="Customer NIC - 985732984V"
-                          required
-                          onChange={(event) => {
-                            setcustomernic(event.target.value);
-                            validateNICNo(event);
-                          }}
-                        />
-                        <div
-                          className={`message ${
-                            isNICValid ? "success" : "error"
-                          }`}
-                        >
-                          {NICmessage}
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form onSubmit={sendData} id="contact-form" class="form">
+                      <div class="row">
+                        <br></br>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                          <h3 className="text-left mt-4 mb-3 customersize">
+                            Customer Details
+                          </h3>
                         </div>
-
-                        {Object.keys(NICErr).map((key) => {
-                          // return <div style={{ color: "red" }}>{NICErr[key]}</div>
-                        })}
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="contactnumber">
-                          Contact Number
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="customername">
+                            Customer Name
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="customername"
+                            name="customername"
+                            placeholder="Full Name"
+                            tabindex="1"
+                            required
+                            onChange={(event) => {
+                              setcustomername(event.target.value);
+                            }}
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="customernic">
+                            Customer NIC
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="customernic"
+                            name="customernic"
+                            placeholder="Customer NIC - 985732984V"
+                            required
+                            onChange={(event) => {
+                              setcustomernic(event.target.value);
+                              validateNICNo(event);
+                            }}
+                          />
+                          <div
+                            className={`message ${
+                              isNICValid ? "success" : "error"
+                            }`}
+                          >
+                            {NICmessage}
+                          </div>
+
+                          {Object.keys(NICErr).map((key) => {
+                            // return <div style={{ color: "red" }}>{NICErr[key]}</div>
+                          })}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="contactnumber">
+                            Contact Number
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="contactnumber"
+                            name="contactnumber"
+                            placeholder="Contact Number(0703814914)"
+                            required
+                            onChange={(event) => {
+                              setcontactnumber(event.target.value);
+                              validateCntNo(event);
+                            }}
+                          />
+                          <div
+                            className={`message ${
+                              isCntValid ? "success" : "error"
+                            }`}
+                          >
+                            {Mobilemessage}
+                          </div>
+
+                          {Object.keys(MobErr).map((key) => {
+                            // return<div className ={message}>{TeleErr[key]}</div>
+                          })}
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="nic">
+                            NIC
+                          </label>
+                          <input
+                            type="file"
+                            class="form-control formInput"
+                            id="nic"
+                            name="nic"
+                            placeholder="NIC (965169472v)"
+                            //tabindex="3"
+                            //required
+                            onChange={(event) => {
+                              setnic(event.target.value);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="customeraddress">
+                          Customer Address
                         </label>
                         <input
                           type="text"
                           class="form-control formInput"
-                          id="contactnumber"
-                          name="contactnumber"
-                          placeholder="Contact Number(0703814914)"
+                          id="customeraddress"
+                          name="customeraddress"
+                          placeholder="Customer Address"
+                          //tabindex="4"
                           required
                           onChange={(event) => {
-                            setcontactnumber(event.target.value);
-                            validateCntNo(event);
+                            setcustomeraddress(event.target.value);
                           }}
                         />
-                        <div
-                          className={`message ${
-                            isCntValid ? "success" : "error"
-                          }`}
-                        >
-                          {Mobilemessage}
+                      </div>
+                      <div class="row">
+                        <br></br>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                          <h3 className="text-left mt-4 mb-4 reservesize">
+                            Reservation Details
+                          </h3>
                         </div>
-
-                        {Object.keys(MobErr).map((key) => {
-                          // return<div className ={message}>{TeleErr[key]}</div>
-                        })}
                       </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="nic">
-                          NIC
-                        </label>
-                        <input
-                          type="file"
-                          class="form-control formInput"
-                          id="nic"
-                          name="nic"
-                          placeholder="NIC (965169472v)"
-                          //tabindex="3"
-                          //required
-                          onChange={(event) => {
-                            setnic(event.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label" for="customeraddress">
-                        Customer Address
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control formInput"
-                        id="customeraddress"
-                        name="customeraddress"
-                        placeholder="Customer Address"
-                        //tabindex="4"
-                        required
-                        onChange={(event) => {
-                          setcustomeraddress(event.target.value);
-                        }}
-                      />
-                    </div>
-                    <div class="row">
-                      <br></br>
-                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                        <h3 className="text-left mt-4 mb-4 reservesize">
-                          Reservation Details
-                        </h3>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label-emp" for="packagename">
-                        Package Name
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control formInput"
-                        id="packagename"
-                        name="packagename"
-                        placeholder=""
-                        //tabindex="7"
-                        required
-                        disabled
-                      />
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="eventtype">
-                          Event Type
+                      <div class="form-group">
+                        <label class="form-label-emp" for="packagename">
+                          Package Name
                         </label>
                         <input
                           type="text"
                           class="form-control formInput"
-                          id="eventtype"
-                          name="eventtype"
-                          placeholder="Event Type (Wedding)"
+                          id="packagename"
+                          name="packagename"
+                          placeholder=""
                           //tabindex="7"
                           required
-                          onChange={(event) => {
-                            seteventtype(event.target.value);
-                          }}
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label-emp" for="status">
-                          Status
-                        </label>
-                        <select
-                          id="status"
-                          className="form-control "
-                          onChange={(event) => {
-                            setstatus(event.target.value);
-                          }}
-                        >
-                          <option id="pending">Select</option>
-                          <option id="pending">Pending</option>
-                          <option id="complete">Complete</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label class="form-label" for="advancedpayment">
-                          Advanced Payment
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="advancedpayment"
-                          name="advancedpayment"
-                          placeholder="Advanced Payment (10000.00)"
-                          required
-                          //tabindex="9"
-                          onChange={(event) => {
-                            setadvancedpayment(event.target.value);
-                          }}
-                          // onFocus={calculateRentPerDate}
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label-emp" for="total">
-                          Total Reservation Price
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="total"
-                          name="total"
-                          placeholder="Total Reservation Price (25000.00)"
-                          //tabindex="10"
                           disabled
                         />
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label
-                          class="form-label-emp"
-                          for="FinalreservationPrice"
-                        >
-                          Final Remaining Price
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control formInput"
-                          id="FinalreservationPrice"
-                          name="FinalreservationPrice"
-                          placeholder="Final Reservation Price (15000.00)"
-                          //tabindex="11"
-                          disabled
-                          /*onChange={(event) => 
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="eventtype">
+                            Event Type
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="eventtype"
+                            name="eventtype"
+                            placeholder="Event Type (Wedding)"
+                            //tabindex="7"
+                            required
+                            onChange={(event) => {
+                              seteventtype(event.target.value);
+                            }}
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label-emp" for="status">
+                            Status
+                          </label>
+                          <select
+                            id="status"
+                            className="form-control "
+                            onChange={(event) => {
+                              setstatus(event.target.value);
+                            }}
+                          >
+                            <option id="pending">Select</option>
+                            <option id="pending">Pending</option>
+                            <option id="complete">Complete</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="advancedpayment">
+                            Advanced Payment
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="advancedpayment"
+                            name="advancedpayment"
+                            placeholder="Advanced Payment (10000.00)"
+                            required
+                            //tabindex="9"
+                            onChange={(event) => {
+                              setadvancedpayment(event.target.value);
+                            }}
+                            // onFocus={calculateRentPerDate}
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label-emp" for="total">
+                            Total Reservation Price
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="total"
+                            name="total"
+                            placeholder="Total Reservation Price (25000.00)"
+                            //tabindex="10"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label
+                            class="form-label-emp"
+                            for="FinalreservationPrice"
+                          >
+                            Final Remaining Price
+                          </label>
+                          <input
+                            type="text"
+                            class="form-control formInput"
+                            id="FinalreservationPrice"
+                            name="FinalreservationPrice"
+                            placeholder="Final Reservation Price (15000.00)"
+                            //tabindex="11"
+                            disabled
+                            /*onChange={(event) => 
                                                         {
                                                             setcustomername(event.target.value);
                                                         }
                                                     }*/
-                        />
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col py-3 text-center">
-                        <button type="submit" className="btn btn-ok">
-                          Reserve
-                        </button>
+                      <div className="row">
+                        <div className="col py-3 text-center">
+                          <button type="submit" className="btn btn-ok">
+                            Reserve
+                          </button>
+                        </div>
+                        <div className="col py-3 text-center">
+                          <button type="reset" className="btn btn-reset">
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-                      <div className="col py-3 text-center">
-                        <button type="reset" className="btn btn-reset">
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                  <br></br>
+                    </form>
+                    <br></br>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <br></br>
       </div>
-      <br></br>
-      
     </div>
-    
-    
-    </div>
-   
-
-    
   );
 }
 
 export default Reservation;
 
 {
-
 }
