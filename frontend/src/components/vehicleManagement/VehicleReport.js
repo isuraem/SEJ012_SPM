@@ -63,11 +63,6 @@ function VehicleReport() {
             })
         })
 
-
-
-
-
-
     }
 
     function changeBoxes() {
@@ -226,7 +221,15 @@ function VehicleReport() {
                     </Pdf>
                     <div ref={ref} className="pl-4">
                         <div className="report">
-                            <img src="https://i.ibb.co/Srr7ynJ/vehicle-Report.jpg" />
+                            {/* <img src="/images/report.png" /> */}
+                            <br></br>
+
+                            <h1>Let's Go Enterprise Pvt(Ltd)</h1>
+                            <h3>Vehicle Management Report</h3>
+                            <br></br>
+                            <img src="/images/reportpic.jpg" width="250px" height="200px"/>
+                            <br></br>
+
 
                             <table class="table table-hover">
                                 <thead class="thead-dark">

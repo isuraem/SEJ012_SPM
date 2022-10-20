@@ -188,10 +188,13 @@ router.route("/reportV/:dateFrom/:dateTo").get(async (req, res) => {
 
 
 //searh records
-router.route("/searchV").post(async (req, res) => {
-    console.log("search data",req.body);
-    let val = req.body.data.trim();
-    let search = req.body.data;
+router.route("/searchV/:search").get(async (req, res) => {
+    
+
+    let val = req.params.search.trim();
+    let search = req.params.search;
+
+    console.log("search data",val , search);
 
     if (!isNaN(search)) {
         if (search < 11) {
@@ -279,6 +282,11 @@ router.route("/searchV").post(async (req, res) => {
 
 
 })
+
+
+
+
+
 
 router.route("/searchPerDayRentalPrice/:vehicle/:model").get((req, res) => {
 

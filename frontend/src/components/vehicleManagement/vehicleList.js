@@ -13,7 +13,7 @@ import Header from "../../Header";
 
 function VehicleList() {
 
-    
+    const [search, setSearch] = useState("");
 
     const [vehicles, setVehicles] = useState([]);
 
@@ -62,7 +62,7 @@ function VehicleList() {
 
 
     const deleteVehicle = async (data) => {
-console.log("----------------",data);
+    console.log("----------------",data);
         await axios.post("http://localhost:8070/vehicleRemove/addRemoveVehicle", { data }).then(() => {
             // alert("**Vehicle Record added successfully")
 
@@ -135,6 +135,26 @@ console.log("----------------",data);
     }
 
 
+    function searchVehicles(e) {
+
+
+        e.preventDefault();
+        //console.log("search val", search);
+        axios.get(`http://localhost:8070/vehicle/searchV/${search}`).then((res) => {
+
+
+            setVehicles(res.data.data.reverse());
+        }).catch((error) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No data found!',
+                confirmButtonColor: '#207159',
+
+            })
+        })
+    }
+
 
    
 
@@ -173,6 +193,20 @@ console.log("----------------",data);
                         </button>
                     </a>
                    
+                </div>
+
+                <div class="row table-head-search">
+                    <div className="col-md-8"></div>
+                    <div className="col">
+                        <div class="input-group input-group-search">
+                            <div class="searchbar">
+                                <form id="contactform" class="form" onSubmit={searchVehicles}>
+                                    <input class="search_input" type="text" name="" placeholder="Search..." value={search} onChange={(event) => { setSearch(event.target.value) }} required />
+                                    <button class="btn search_icon" type="submit" id="submit" name="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 

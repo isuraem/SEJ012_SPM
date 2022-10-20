@@ -7,8 +7,8 @@ import Header from '../../Header';
 
 const DeletedList = () => {
     const [vehicles, setVehicles] = useState([]);
-    // const [modalShow, setModalShow] = useState(false);
-    // const [modalData, setData] = useState([]);
+    const [modalShow, setModalShow] = useState(false);
+    const [modalData, setData] = useState([]);
 
     useEffect(() => {
 
@@ -52,12 +52,12 @@ const DeletedList = () => {
                     <div class="col">
                         <h3 className="float-left ">Removed Vehicle List</h3>
                     </div>
-                    <a href="/addVehicle" class="float-right">
+                    <a href="/vehicle/addVehicle" class="float-right">
                         <button class="btn btn-ok white">
                             Add Vehicle
                         </button>
                     </a>
-                    <a href="/vehicleList" class="float-right ml-4">
+                    <a href="/vehicle/viewVehicle" class="float-right ml-4">
                         <button class="btn btn-ok white">
                             Current Vehicle List
                         </button>

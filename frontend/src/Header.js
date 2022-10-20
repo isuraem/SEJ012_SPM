@@ -242,7 +242,7 @@ function Header(props) {
                   </Link>
                 </li>
                 <li className="has-subnav">
-                  <Link to="/vehicle/report">
+                  <Link to="/vehicle/viewVehicleReport">
                     <i className="fa fa-2x"></i>
                     <span className="nav-text">Vehicle Inventory</span>
                     <i className="fa fa-angle-right fa-2x"></i>
