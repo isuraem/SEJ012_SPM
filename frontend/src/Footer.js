@@ -6,7 +6,7 @@ function Footer() {
             <footer>
                 <div className="row">
                     <div className="col">
-                        {/* <img class="footerLogo" src="#" width="200px" height="75px" alt="todo" border="0" /> */}
+                        {/* <img  src="images/Let's.png" width="250px" height="100px" alt="todo" border="0" /> */}
                     </div>
                     <div className="col">
                         <ul class="list-unstyled desc">
@@ -15,7 +15,7 @@ function Footer() {
                         </ul>
                     </div>
                 </div>
-                <p class="copyright">LetsGo © 2021</p>
+                <p class="copyright">Let'sGo © 2022</p>
 
             </footer>
         </div>

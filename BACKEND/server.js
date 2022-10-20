@@ -17,6 +17,9 @@ mongoose.connect(URL, {
   useUnifiedTopology: true,
 });
 
+
+
+
 const connection = mongoose.connection;
 //connect database
 connection.once("open", () => {
@@ -28,6 +31,17 @@ const eventRouter = require("./routes/events.js");
 app.use("/event", eventRouter);
 
 
-app.listen(PORT, () => {
-  console.log(`server is up and running on port: ${PORT}`);
-});
+ 
+ app.listen(PORT, () => {
+    console.log(`server is up and running on porT: ${PORT}`);
+})
+
+const removedEventRouter = require("./routes/removedReservation");
+app.use("/removedEvent", removedEventRouter);
+
+//Vehicle_Routes
+const vehicleRouter = require("./routes/vehicles.js");
+app.use("/vehicle", vehicleRouter);
+
+const vehicleRemoveRouter = require("./routes/removeVehicleController.js");
+app.use("/vehicleRemove", vehicleRemoveRouter);
