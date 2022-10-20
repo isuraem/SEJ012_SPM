@@ -2,11 +2,11 @@ import React from 'react'
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 
 
-import AddVehicle from './vehicleManagement/vehicleAdd';
-import vehicleList from './vehicleManagement/vehicleList';
-import DeletedList from './vehicleManagement/deletedList';
-import VehicleReport from './vehicleManagement/VehicleReport';
-import Footer from '../Footer';
+import AddVehicle from './components/vehicleManagement/vehicleAdd';
+import vehicleList from './components/vehicleManagement/vehicleList';
+import DeletedList from './components/vehicleManagement/deletedList';
+import VehicleReport from './components/vehicleManagement/VehicleReport';
+import Footer from './Footer';
 
 export const Home = () => {
   return (
