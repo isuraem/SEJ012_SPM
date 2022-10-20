@@ -110,20 +110,25 @@ router.route("/getRentalRecordByCustomer/:nic").get(async (req, res) => {
 })
 
 
-//To delete a specific rental record from database
-router.route("/deleteRental").post(async (req, res) => {
+//router for delete an Vehicle record
+router.post("/deleteRental", async (req, res) => {
+    const RentID = req.body.customerNIC;
+ console.log("hkugeiyagig",req.body);
 
-    let rID = req.body.data.id;//rental id taken from frontend
-    await Rental.findOneAndDelete({ id: rID })
-        .then(() => {
-            res.status(200).send({ status: "Rental Record deleted" });
-        }).catch(() => {
+    if (RentID) {
+        const response = await Rental.findOneAndDelete({ customerNIC: RentID }).then(() => {
+            return res.status(200).send({ status: "Success" });
+        }).catch((err) => {
             console.log(err);
-            res.status(500).send({ status: "Error with deleting rental record", error: err.message });
+            return res.status(500).send({ status: "Internal Server Error" });
         })
+    }else{
+    return res.status(400).send({ status: "Invalid Request" });
+    }
+
+});
 
 
-})
 
 //To update the rental record deails
 router.route("/updateRental/:rID").put(async (req, res) => {
@@ -150,225 +155,6 @@ router.route("/updateRental/:rID").put(async (req, res) => {
         })
 
 })
-
-//this route is used to find the latest three rentals
-router.route("/getLatestRentalsOnly").get(async (req, res) => {
-
-    const rental = await Rental.find().sort({ _id: -1 }).limit(3)
-        .then((rental) => {
-            //res.status(200).send({ status: "Rental fetched", rental: rental })
-            res.json(rental);
-        }).catch(() => {
-            console.log(err.message);
-            res.status(500).send({ status: "Server error with retrieving Rental Record", error: err.message });
-        })
-
-})
-
-//To get the count of the pending records
-router.route("/pendingRentalCount").get((req, res) => {
-
-    Rental.find({ status: /pending/ }).count().then((result) => {
-        res.json(result);
-
-    }).catch((err) => {
-        console.log(err);
-    })
-
-})
-
-/***** List of search methods are below*/
-
-//this will serach for the list of orders by a particular customer nic given at searchbox
-router.route("/searchRentalRecs/:nic").get((req, res) => {
-
-    let val = req.params.nic.trim();
-    Rental.find({ customerNIC: { $regex: "^" + val + ".*", $options: 'i' } }).then((rentals) => {
-        res.json(rentals);
-    })
-        .catch((err) => {
-            console.log(err);
-        })
-})
-
-
-//to search for an rental record based on status either pending or completed at search box
-router.route("/searchRentalRecordsX/:rVal").get((req, res) => {
-
-    let val = req.params.rVal.trim();
-
-    Rental.find({ status: { $regex: ".*" + val + ".*", $options: 'i' } }).then((rentals) => {
-        res.json(rentals)
-
-    }).catch((err) => {
-        console.log(err);
-    })
-
-})
-
-//to search for an rental record based on from or to dates at search box
-router.route("/searchByFromDate/:rDate").get((req, res) => {
-
-    let val = req.params.rDate.trim();
-
-    Rental.find({ from: { $regex: "^" + val + ".*", $options: 'i' } }).then((rentals) => {
-        res.json(rentals)
-
-    }).catch((err) => {
-        console.log(err);
-    })
-
-})
-
-router.route("/searchByToDate/:rDate").get((req, res) => {
-
-    let val = req.params.rDate.trim();
-
-    Rental.find({ to: { $regex: ".*" + val + ".*", $options: 'i' } }).then((rentals) => {
-        res.json(rentals)
-
-    }).catch((err) => {
-        console.log(err);
-    })
-
-})
-
-//to search only pending rental record 
-router.route("/searchPendingRentalRecords").get((req, res) => {
-
-    let val = "pending";
-
-    Rental.find({ status: { $regex: ".*" + val + ".*", $options: 'i' } }).then((rentals) => {
-        res.json(rentals)
-
-    }).catch((err) => {
-        console.log(err);
-    })
-
-})
-
-//to search for the list of pending records using customer NIC
-router.route("/searchPendingCustomer/:nic").get((req, res) => {
-
-    let val1 = "pending";
-    let val = req.params.nic.trim();
-
-    Rental.find({ status: { $regex: ".*" + val1 + ".*", $options: 'i' } }).then((rentals) => {
-
-        if (rentals != null) {
-            Rental.find({ customerNIC: { $regex: "^" + val + ".*", $options: 'i' } }).then((rentals) => {
-                res.json(rentals);
-            })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-
-    }).catch((err) => {
-        console.log(err);
-    })
-})
-
-//to search for the list of renting records on the current
-router.route("/VehiclesRentedToday").get((req, res) => {
-
-    let val = moment().format('YYYY-MMMM-DD');
-
-    let status = "Pending"
-
-    Rental.count({ $and: [{ from: { $regex: "^" + val + ".*" }, status: { $regex: "^" + status + ".*" } }] }).then((rentals) => {
-        res.json(rentals);
-
-    })
-        .catch((err) => {
-            console.log(err);
-
-        })
-
-})
-
-/******functions to be used within the report handling*******/
-router.route("/generateReport/:rFrom/:rTo/:rvehicleType/:rCustomerName").get((req, res) => {
-
-    let rFrom = moment(req.params.rFrom.trim()).format('YYYY-MMMM-DD');
-    let rTo = moment(req.params.rTo.trim()).format('YYYY-MMMM-DD');
-    let rvehicleType = req.params.rvehicleType;
-    let rCustomerName = req.params.rCustomerName;
-    let status = "Pending";
-
-    console.log("resuest", req.params);
-    console.log("dates", rFrom)
-
-    if (rCustomerName == "null" && rvehicleType == "null") {
-        Rental.find({
-            $and: [{
-                from: { $gte: rFrom },
-                to: { $lte: rTo },
-                status: { $regex: "^" + status + ".*" },
-            }]
-        })
-            .then((rentals) => {
-                res.json(rentals);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    } else if (rvehicleType == "null") {
-        Rental.find({
-            $and: [{
-                from: { $gte: rFrom },
-                to: { $lte: rTo },
-                customerName: { $regex: ".*" + rCustomerName + ".*" },
-                status: { $regex: "^" + status + ".*" },
-            }]
-        })
-            .then((rentals) => {
-                res.json(rentals);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-
-    } else if (rCustomerName == "null") {
-        Rental.find({
-            $and: [{
-                from: { $gte: rFrom },
-                to: { $lte: rTo },
-                vehicleType: { $regex: "^" + rvehicleType + ".*" },
-                status: { $regex: "^" + status + ".*" },
-            }]
-        })
-            .then((rentals) => {
-                res.json(rentals);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-    else {
-
-        Rental.find({
-            $and: [{
-                from: { $gte: rFrom },
-                to: { $lte: rTo },
-                vehicleType: { $regex: "^" + rvehicleType + ".*" },
-                customerName: { $regex: ".*" + rCustomerName + ".*" },
-                status: { $regex: "^" + status + ".*" },
-            }]
-        })
-            .then((rentals) => {
-                res.json(rentals);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-})
-
-
-
-
-
 
 
 module.exports = router;
