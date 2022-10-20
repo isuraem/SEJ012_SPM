@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import Swal from 'sweetalert2';
 
 import Header from "../Header";
-import DeleteModal from "./modals/deleteRental";
+import RentalUpdateModal from "./modals/RentalUpdate";
 
 function RentalList() {
 
@@ -15,7 +16,9 @@ function RentalList() {
    
     const [modalDataDelete, setModalDataDelete] = useState([]);
     const [modalDeleteConfirm, setModalDeleteConfirm] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
+
+    const [modalDataUpdate, setModalDataUpdate] = useState([]);
+    const [modalUpdate, setModalUpdate] = useState(false);
    
 
     useEffect(() => {
@@ -31,14 +34,33 @@ function RentalList() {
                 })
             }
             getRentals();
-    }, [])
+    }, []);
 
-    useEffect(() => {
-
-        console.log("component did update", modalDataDelete)
-    
-    
-    }, [modalDataDelete]);
+    const deleteRental = async (data) => {
+        console.log("----------------",data);
+        
+                console.log("modalDataDelete.fyiff",modalDataDelete);
+                    const value = axios.post("http://localhost:8070/rental/deleteRental", modalDataDelete);
+                    //console.log("deletedddd", value);
+                    if (value) {
+                        // alert("**Permenantly deleted the Vehicle Record");
+                        // window.location.replace("/viewReservation");
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Permenantly deleted the Vehicle Record &  added successfully !!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        }
+                        ).then(() => {
+                            window.location.reload();
+                        })
+        
+        
+        
+                    }
+        
+            }
 
     const openModalDelete = (data) => {
         setModalDataDelete(data);
@@ -48,6 +70,14 @@ function RentalList() {
 
     function refreshPage() {
         window.location.reload();
+    }
+
+    const openModalUpdate = (data) => {
+
+        console.log("request came for modal updateeeeeee", data);
+        setModalDataUpdate(data);
+        setModalUpdate(true);
+
     }
 
 
@@ -111,7 +141,7 @@ function RentalList() {
 
                                         <button
                                             class="btn btn-light btn-sm"
-                                            //onClick={() => openModalUpdate(rental)}
+                                            onClick={() => openModalUpdate(rental)}
                                         >
                                             update
                                         </button>
@@ -128,7 +158,7 @@ function RentalList() {
                 </table>
             </div>
 
-            <Modal show={modalDeleteConfirm} size="md"
+            <Modal show={modalDeleteConfirm} onHide={() => setModalDeleteConfirm(false)} size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header closeButton>
@@ -141,7 +171,7 @@ function RentalList() {
                 <Modal.Footer>
                     <div className="row">
                         <div className="col -6">
-                            <button type="submit" className="btn btn-delete" onClick={() => { setModalDelete(true); setModalDeleteConfirm(false); }}>
+                            <button type="submit" className="btn btn-delete" onClick={() => { deleteRental(modalDataDelete); }}>
                                 Confirm
                             </button>
                         </div>
@@ -154,16 +184,18 @@ function RentalList() {
                 </Modal.Footer>
             </Modal>
 
+    
+
             <Modal
-                show={modalDelete}
-                onHide={() => setModalDelete(false)}
+                show={modalUpdate}
+                onHide={() => setModalUpdate(false)}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
-                <DeleteModal
-                    data={modalDataDelete}
-                    onHide={() => setModalDelete(false)}
+                <RentalUpdateModal
+                    data={modalDataUpdate}
+                    onHide={() => setModalUpdate(false)}
                 />
             </Modal>
 
