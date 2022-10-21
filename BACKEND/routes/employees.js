@@ -85,8 +85,8 @@ router.route("/updateEmp/:id").put(async(req,res)=>{
 })
 
 //delete employee
-router.route("/deleteEmp/:id").delete(async(req,res)=>{
-    let empId = req.params.id;
+router.route("/deleteEmp").post(async(req,res)=>{
+    let empId = req.body._id;
 
     await Employee.findByIdAndDelete(empId).then((employee)=>{
         res.json(employee)
@@ -94,5 +94,33 @@ router.route("/deleteEmp/:id").delete(async(req,res)=>{
         console.log(err)
     })
 })
+
+
+//employee report
+router.route("/empReport/:JoiningDate").get(async (req, res) => {
+
+    console.log("employee report",req);
+    let JoiningDate = isMoment(req.params.JoiningDate.trim()).format('YYYY-MM-DD');
+
+    // const dateFrom = moment(req.params.dateFrom.trim()).format('YYYY-MM-DD');
+    // const dateTo = moment(req.params.dateTo.trim()).format('YYYY-MM-DD');
+    
+    console.log("report function", JoiningDate);
+
+    Employee.find({
+        $and: [{
+
+            JoiningDate: { $gte: JoiningDate },
+           
+        }]
+
+    }).then((employee) => {
+        res.json(employee);
+    }).catch((err) => {
+        console.log(err);
+    })
+
+})
+
 
 module.exports = router;

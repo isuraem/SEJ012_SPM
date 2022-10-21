@@ -20,6 +20,9 @@ export default function AllEmployee() {
     const [ModalEmpUpdate, setModalEmpUpdate] = useState([]);
     const [ModalEmpUpdateConfirm, setModalEmpUpdateConfirm] = useState(false);
 
+    const [ModalEmpDelete, setModalEmpDelete] = useState([]);
+    const [ModalEmpDeleteConfirm, setModalEmpDeleteConfirm] = useState(false);
+
 
     useEffect(() => {
 
@@ -48,9 +51,57 @@ export default function AllEmployee() {
 
     }, []);
 
+    const deleteEmployee = async(data) => {
+        console.log("deleteEmployee...",data);
+        await axios.post("http://localhost:8070/REmployee/addRemovedEmp/",{data}).then(() =>{
+            Swal.fire({
+                title: 'Success!',
+                text: 'Permenantly deleted the Employee Record',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            console.log("Emp delete modal....");
+
+            console.log(ModalEmpDelete);
+            const value = axios.post
+            ("http://localhost:8070/employee/deleteEmp",ModalEmpDelete);
+            if(value){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Permenantly deleted the Employee Record &  added successfully into the Removed Employee List !!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(()=>{
+                    console.log("111111111111");
+                    window.location.reload();
+                })
+            }
+        }).catch((err)=>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#207159',
+
+            }).then(() => {
+                window.location.reload();
+            })
+            alert(err.response.data.errorCode)
+        })
+    }
+
+
     const openModalEmpUpdate = (data) => {
         setModalEmpUpdate(data);
         setModalEmpUpdateConfirm(true);
+    }
+
+    const openModalEmpDelete = (data) => {
+        console.log("delEmp")
+        setModalEmpDelete(data);
+        setModalEmpDeleteConfirm(true);
     }
   
 
@@ -72,7 +123,7 @@ export default function AllEmployee() {
                             Add Employee
                         </button>
                     </a>
-                    <a href="/" class="float-right">
+                    <a href="/REmp" class="float-right">
                         <button class="btn btn-ok white">
                             Resigned Employees
                         </button>
@@ -112,7 +163,7 @@ export default function AllEmployee() {
                                             Update
                                         </button>
                                         <button
-                                            // onClick={() => openModalEmpDelete(employee)}
+                                            onClick={() => openModalEmpDelete(employee)}
                                             class="btn btn-danger btn-sm"
                                         >
                                             Delete
@@ -139,6 +190,36 @@ export default function AllEmployee() {
                 data={ModalEmpUpdate}
                 onHide={() => setModalEmpUpdate(false)}
                 />
+            </Modal>
+
+            {/* modal for delete employee details */}
+            <Modal
+                show={ModalEmpDeleteConfirm}
+                onHide={() => setModalEmpDeleteConfirm(false)}
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+            <Modal.Header closeButton>
+                <Modal.Title>Confirm Deletion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>Would you like to remove this employee's details ?</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <div className="row">
+                    <div className="col -6">
+                        <button type="submit" className="btn btn-delete" onClick={() => {deleteEmployee(ModalEmpDelete);}}>
+                            Confirm
+                        </button>
+                    </div>
+                    <div className="col-6 text-right" onClick={() => setModalEmpDeleteConfirm(false)}>
+                        <button type="reset" className="btn btn-reset">
+                            cancel
+                        </button>
+                    </div>
+                </div>
+            </Modal.Footer>
             </Modal>
            
         </div>

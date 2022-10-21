@@ -3,17 +3,17 @@ let RemovedEmployee = require("../models/RemovedEmployee");
 
 //Removed employee adding
 router.route("/addRemovedEmp").post(async(req,res) => {
-    console.log("removed Employee", req.body)
+    console.log("removed Employee", req.body.data)
 
-    const Name = req.body.Name;
-    const Address = req.body.Address;
-    const NIC = req.body.NIC;
-    const DOB = req.body.DOB;
-    const Phone = req.body.Phone;
-    const Email = req.body.Email;
-    const Gender = req.body.Gender;
-    const JoiningDate = req.body.JoiningDate;
-    const Designation = req.body.Designation;
+    const Name = req.body.data.Name;
+    const Address = req.body.dataAddress;
+    const NIC = req.body.data.NIC;
+    const DOB = req.body.data.DOB;
+    const Phone = req.body.data.Phone;
+    const Email = req.body.data.Email;
+    const Gender = req.body.data.Gender;
+    const JoiningDate = req.body.data.JoiningDate;
+    const Designation = req.body.data.Designation;
     // const Photo = req.body.Photo;
     // const CV = req.body.CV;
 
