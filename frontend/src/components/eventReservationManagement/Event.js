@@ -56,7 +56,6 @@ function Reservation() {
     calcprice1();
   }, [advancedpayment, totalreservation]);
 
-  //send data to data base after submit the form
   function sendData(e) {
     console.log("from date", from);
     const finalpay = (document.getElementById("FinalreservationPrice").value =
@@ -66,18 +65,8 @@ function Reservation() {
     const CntValid = MobileValidation();
 
     if (NICValid && CntValid) {
-      Swal.fire({
-        title: "Are you sure you want to confirm Reservation? ",
-        text: `${"Your Remaining balance is " + finalpay}`,
-        showConfirmButton: true,
-        showDenyButton: true,
-        confirmButtonText: "Proceed",
-        denyButtonText: "Cancel",
-        confirmButtonColor: "#1fc191",
-      }).then((result) => {
-        if (result.isConfirmed) {
 
-          const newReservation = {
+         const newReservation = {
             customername,
             contactnumber,
             nic,
@@ -93,31 +82,22 @@ function Reservation() {
             status
           };
 
-          axios
+         axios
             .post("http://localhost:8070/event/addEvent", newReservation)
             .then(() => {
+              console.log("new")
               Swal.fire({
-                title: "Reservation Completed!",
-                icon: "success",
+                title: 'Reservation Completed!',
+                icon: 'success',
                 confirmButtonColor: "#1fc191",
-              }).then((res) => {
+            }).then((res) => {
                 if (res.isConfirmed) {
-                  window.location.replace("/viewEvent");
+                    window.location.reload();
                 }
-              });
             })
-            .catch((err) => {
-              Swal.fire({
-                title: "Oops!",
-                text: `${"Customer already has reservation"}`,
-                icon: "error",
-                confirmButtonColor: "#1fc191",
-              });
-            });
-        } else if (result.isDenied) {
-          refreshPage();
-        }
-      });
+            }
+            )
+         
     }
   }
 

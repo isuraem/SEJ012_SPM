@@ -184,7 +184,7 @@ function ViewEvent() {
               Completed Reservation
             </button>
           </p>
-          <a href="/diplay/RemoveEventlist" class="float-right ml-4">
+          <a href="/display/RemoveEventlist" class="float-right ml-4" >
             <button class="btn btn-ok white">Past Records</button>
           </a>
         </div>
