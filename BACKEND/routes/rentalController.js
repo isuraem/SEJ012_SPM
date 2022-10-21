@@ -156,5 +156,17 @@ router.route("/updateRental/:rID").put(async (req, res) => {
 
 })
 
+//this will serach for the list of orders by a particular customer nic given at searchbox
+router.route("/searchRentalRecs/:nic").get((req, res) => {
+
+    let val = req.params.nic.trim();
+    Rental.find({ customerNIC: { $regex: "^" + val + ".*", $options: 'i' } }).then((rentals) => {
+        res.json(rentals);
+    })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
 
 module.exports = router;
