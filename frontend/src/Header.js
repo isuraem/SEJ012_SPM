@@ -149,14 +149,14 @@ function Header(props) {
               </li>
               <ul className="sub-menu collapse" id="new2">
                 <li className="has-subnav">
-                  <Link to="/viewReservation">
+                  <Link to="/viewEvent">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text"> Reservations List</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav ">
-                  <Link to="/addReservation">
+                  <Link to="/addEvent">
                     <i className="fa"></i>
                     <span className="nav-text">Add Reservation</span>
                     <i className="fa fa-angle-right fa-3x"></i>
@@ -248,7 +248,6 @@ function Header(props) {
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
-
               </ul>
             </li>
             <hr></hr>
