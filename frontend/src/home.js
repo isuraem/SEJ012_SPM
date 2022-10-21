@@ -25,7 +25,7 @@ export const Home = () => {
             <Route path="/addEvent" exact>
           <Event />
         </Route>
-        <Route path="/viewEvent" exact>
+        <Route path="/viewEvent">
           <ViewEvent />
         </Route>
         <Route path="/reservation/report">

@@ -74,16 +74,16 @@ function ViewEvent() {
   };
 
   // //search all completed record after clicking completed button
-  // function pendingRecords() {
-  //     function getPendingReservation() {
-  //         axios.get("http://localhost:8070/event/searchCompletedEventRecords/").then((res) => {
-  //             setviewevent(res.data.reverse());
-  //         }).catch((error) => {
-  //             alert(error.message);
-  //         })
-  //     }
-  //     getPendingReservation();
-  // }
+  function pendingRecords() {
+      function getPendingReservation() {
+          axios.get("http://localhost:8070/event/searchCompletedEventRecords/").then((res) => {
+              setviewevent(res.data.reverse());
+          }).catch((error) => {
+              alert(error.message);
+          })
+      }
+      getPendingReservation();
+  }
 
   //search customer nic and package name after the search
   function searchEvent(e) {
@@ -180,11 +180,11 @@ function ViewEvent() {
             <button class="btn btn-ok white">+Add Reservation</button>
           </a>
           <p class="float-right ml-4">
-            <button class="btn btn-ok white" id="pending">
+            <button class="btn btn-ok white" id="pending" onClick={pendingRecords}>
               Completed Reservation
             </button>
           </p>
-          <a href="/diplay/RemoveReservationlist" class="float-right ml-4">
+          <a href="/diplay/RemoveEventlist" class="float-right ml-4">
             <button class="btn btn-ok white">Past Records</button>
           </a>
         </div>
