@@ -8,46 +8,46 @@ function Header(props) {
 
   // ............................
 // Some random colors
-const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
+// const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
 
-const numBalls = 2;
-const balls = [];
+// const numBalls = 2;
+// const balls = [];
 
-for (let i = 0; i < numBalls; i++) {
-  let ball = document.createElement("div");
-  ball.classList.add("ball");
-  ball.style.background = colors[Math.floor(Math.random() * colors.length)];
-  ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
-  ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
-  ball.style.transform = `scale(${Math.random()})`;
-  ball.style.width = `${Math.random()}em`;
-  ball.style.height = ball.style.width;
+// for (let i = 0; i < numBalls; i++) {
+//   let ball = document.createElement("div");
+//   ball.classList.add("ball");
+//   ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+//   ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+//   ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+//   ball.style.transform = `scale(${Math.random()})`;
+//   ball.style.width = `${Math.random()}em`;
+//   ball.style.height = ball.style.width;
   
-  balls.push(ball);
-  document.body.append(ball);
-}
+//   balls.push(ball);
+//   document.body.append(ball);
+// }
 
 // Keyframes
-balls.forEach((el, i, ra) => {
-  let to = {
-    x: Math.random() * (i % 2 === 0 ? -11 : 11),
-    y: Math.random() * 2
-  };
+// balls.forEach((el, i, ra) => {
+//   let to = {
+//     x: Math.random() * (i % 2 === 0 ? -11 : 11),
+//     y: Math.random() * 2
+//   };
 
-  let anim = el.animate(
-    [
-      { transform: "translate(0, 0)" },
-      { transform: `translate(${to.x}rem, ${to.y}rem)` }
-    ],
-    {
-      duration: (Math.random() + 1) * 2000, // random duration
-      direction: "alternate",
-      fill: "both",
-      iterations: Infinity,
-      easing: "ease-in-out"
-    }
-  );
-});
+//   let anim = el.animate(
+//     [
+//       { transform: "translate(0, 0)" },
+//       { transform: `translate(${to.x}rem, ${to.y}rem)` }
+//     ],
+//     {
+//       duration: (Math.random() + 1) * 2000, // random duration
+//       direction: "alternate",
+//       fill: "both",
+//       iterations: Infinity,
+//       easing: "ease-in-out"
+//     }
+//   );
+// });
 
 // >>>>>>>>>>>>>
   
@@ -149,14 +149,14 @@ balls.forEach((el, i, ra) => {
               </li>
               <ul className="sub-menu collapse" id="new2">
                 <li className="has-subnav">
-                  <Link to="/viewReservation">
+                  <Link to="/viewEvent">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text"> Reservations List</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav ">
-                  <Link to="/addReservation">
+                  <Link to="/addEvent">
                     <i className="fa"></i>
                     <span className="nav-text">Add Reservation</span>
                     <i className="fa fa-angle-right fa-3x"></i>
@@ -242,13 +242,12 @@ balls.forEach((el, i, ra) => {
                   </Link>
                 </li>
                 <li className="has-subnav">
-                  <Link to="/vehicle/report">
+                  <Link to="/vehicle/viewVehicleReport">
                     <i className="fa fa-2x"></i>
                     <span className="nav-text">Vehicle Inventory</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
-
               </ul>
             </li>
             <hr></hr>

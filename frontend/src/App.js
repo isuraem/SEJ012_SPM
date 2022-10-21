@@ -1,12 +1,12 @@
-import React from "react";
-import Homes from "./homes";
+import { Homes } from "./homes";
+import "./App.css"
 
 function App() {
-  return (
-    <div>
-      <Homes />
-    </div>
-  );
+  return <div className="App">
+    
+       <Homes/>
+
+        </div>;
 }
 
 export default App;
