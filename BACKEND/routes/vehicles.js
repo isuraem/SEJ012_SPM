@@ -315,5 +315,46 @@ router.route("/searchPerDayRentalPrice/:vehicle/:model").get((req, res) => {
 
 })
 
+//search vehicle details
+router.route("/searchVehicleModels/:vehicle").get((req, res) => {
+
+    let val = req.params.vehicle.trim();
+
+    //{$regex: ".*" + val + ".*"}this will get to the value anywhere in the list not just begining
+    Vehicle.find({ VehicleType: { $regex: ".*" + val + ".*", $options: 'i' } }).then((vehicle) => {
+        var length = vehicle.length;
+        let values = "";
+        for (var a = 0; a < vehicle.length; a++) {
+            values += vehicle[a].VehicleModel + ",";
+        }
+        values = Array.from(new Set(values.split(','))).toString();
+        res.json(values);
+
+    }).catch((err) => {
+        console.log(err);
+    })
+
+})
+
+//to search for the list of renting records on the current
+router.route("/VehiclesAvailable").get((req, res) => {
+
+    //let val = isMoment().format('YYYY-MMMM-DD');
+
+    let car = "Car"
+    let van = "Van"
+    let bus = "Bus"
+
+    Vehicle.count({ VehicleType: { $regex: "^" + car + ".*" } } + { VehicleType: { $regex: "^" + van + ".*" } } + { VehicleType: { $regex: "^" + bus + ".*" } }).then((vehicle) => {
+        res.json(vehicle);
+
+    })
+        .catch((err) => {
+            console.log(err);
+
+        })
+
+})
+
 
 module.exports=router;

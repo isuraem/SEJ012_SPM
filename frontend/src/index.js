@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import "@fontsource/titillium-web"
 
 import App from './App';
