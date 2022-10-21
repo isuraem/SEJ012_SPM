@@ -20,6 +20,7 @@ export const Homes = () => {
     <div>
         <Router>
             <Switch>
+            {/* Mew */}
             <Route path="/vehicle/addVehicle" exact component={AddVehicle} />
             <Route path = "/vehicle/viewVehicle" exact component={vehicleList}/>
             <Route path = "/vehicle/view" exact component={DeletedList}/>
