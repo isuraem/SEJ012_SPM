@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Link, useHistory, withRouter } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 import Swal from 'sweetalert2';
 
 import Header from "../Header";
@@ -145,9 +145,9 @@ function RentalList() {
                                         >
                                             update
                                         </button>
-                                        <Link class="btn btn-danger btn-sm" 
+                                        <button class="btn btn-danger btn-sm" 
                                         onClick={() => openModalDelete(rental)}
-                                        role="button"> remove</Link>
+                                        > remove</button>
 
                                     </td>
                                    
