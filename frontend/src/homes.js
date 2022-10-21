@@ -13,6 +13,10 @@ import ViewEvent from "./components/eventReservationManagement/viewEvent";
 
 import EventReport from "./components/eventReservationManagement/EventReport";
 import login from './components/login'
+
+import RentalPlacement from "./components/rentalManagement/rentalPlacement"
+import rentalList from "./components/rentalManagement/rentalList"
+
 import Footer from './Footer';
 
 export const Homes = () => {
@@ -26,6 +30,9 @@ export const Homes = () => {
             <Route path = "/vehicle/view" exact component={DeletedList}/>
             <Route path = "/vehicle/viewVehicleReport" exact component={VehicleReport}/>
             <Route path = "/" exact component={login}/>
+
+            <Route path="/addRental" exact component={RentalPlacement} />
+            <Route path="/rentalList" exact component={rentalList} />
 
             <Route path="/addEvent" exact>
 
