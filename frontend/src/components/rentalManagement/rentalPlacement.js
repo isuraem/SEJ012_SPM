@@ -5,7 +5,7 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import Swal from "sweetalert2";
-import Header from "../Header";
+import Header from "../../Header";
 
 function RentalPlacement() {
 

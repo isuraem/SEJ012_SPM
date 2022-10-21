@@ -4,7 +4,7 @@ import { Link, useHistory, withRouter } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import Swal from 'sweetalert2';
 
-import Header from "../Header";
+import Header from "../../Header";
 import RentalUpdateModal from "./modals/RentalUpdate";
 
 function RentalList() {
