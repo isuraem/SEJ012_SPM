@@ -41,7 +41,11 @@ app.use("/rental", rentalRouter);//table name is created at this point
 
 
 
+ const employeeRouter = require("./routes/employees.js");
+ app.use("/employee",employeeRouter);
 
+ const removedEmpRouter = require("./routes/removedEmployees.js");
+ app.use("/REmployee",removedEmpRouter);
  
  app.listen(PORT, () => {
     console.log(`server is up and running on porT: ${PORT}`);
