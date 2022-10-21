@@ -42,8 +42,6 @@ app.use("/removedEvent", removedEventRouter);
     console.log(`server is up and running on porT: ${PORT}`);
 })
 
-const removedEventRouter = require("./routes/removedReservation");
-app.use("/removedEvent", removedEventRouter);
 
 //Vehicle_Routes
 const vehicleRouter = require("./routes/vehicles.js");
