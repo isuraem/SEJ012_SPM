@@ -17,6 +17,12 @@ import login from './components/login'
 import RentalPlacement from "./components/rentalManagement/rentalPlacement"
 import rentalList from "./components/rentalManagement/rentalList"
 
+//employee management
+import AddEmployee from "./components/employeeManagement/AddEmployee";
+import AllEmployee from "./components/employeeManagement/AllEmployee";
+import UpdateEmployee from "./components/employeeManagement/UpdateEmployee";
+import RemovedEmployee from "./components/employeeManagement/RemovedEmployee";
+
 import Footer from './Footer';
 
 export const Homes = () => {
@@ -52,6 +58,11 @@ export const Homes = () => {
 
             </Route>
             
+            <Route path="/addEmp" exact component={AddEmployee} />
+            <Route path="/allEmp" exact component={AllEmployee}/>
+            <Route path="/updateEmp" exact component={UpdateEmployee}/>
+            <Route path="/REmp" exact component={RemovedEmployee}/>
+
             </Switch>
             <Footer></Footer>
         </Router>
