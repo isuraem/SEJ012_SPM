@@ -37,6 +37,7 @@ router.route("/addEvent").post((req, res)=> {
         totalreservation,
         status
     })
+    console.log(newEvent);
 
     newEvent.save().then(()=>
     {
