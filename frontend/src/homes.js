@@ -1,25 +1,63 @@
-import React from 'react';
-import AddEmployee from "./components/employeeManagement/AddEmployee";
-import AllEmployee from "./components/employeeManagement/AllEmployee";
-import UpdateEmployee from "./components/employeeManagement/UpdateEmployee";
-import RemovedEmployee from "./components/employeeManagement/RemovedEmployee";
-import {BrowserRouter as Router,Route} from "react-router-dom"
-import Footer from "./Footer";
+import React from 'react'
+import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 
-function Homes() {
-    return( 
-        <div className="App">
-      <Router>
-        
-          <Route path="/addEmp" exact component={AddEmployee} />
-          <Route path="/allEmp" exact component={AllEmployee}/>
-          <Route path="/updateEmp" exact component={UpdateEmployee}/>
-          <Route path="/REmp" exact component={RemovedEmployee}/>
-        
-        <Footer/>
-      </Router>
-      </div>
-    );
-  }
-  
-  export default Homes;
+
+import AddVehicle from './components/vehicleManagement/vehicleAdd';
+import vehicleList from './components/vehicleManagement/vehicleList';
+import DeletedList from './components/vehicleManagement/deletedList';
+import VehicleReport from './components/vehicleManagement/VehicleReport';
+
+import Event from "./components/eventReservationManagement/Event";
+
+import ViewEvent from "./components/eventReservationManagement/viewEvent";
+
+import EventReport from "./components/eventReservationManagement/EventReport";
+import login from './components/login'
+
+import RentalPlacement from "./components/rentalManagement/rentalPlacement"
+import rentalList from "./components/rentalManagement/rentalList"
+
+import Footer from './Footer';
+
+export const Homes = () => {
+  return (
+    <div>
+        <Router>
+            <Switch>
+            {/* Mew */}
+            <Route path="/vehicle/addVehicle" exact component={AddVehicle} />
+            <Route path = "/vehicle/viewVehicle" exact component={vehicleList}/>
+            <Route path = "/vehicle/view" exact component={DeletedList}/>
+            <Route path = "/vehicle/viewVehicleReport" exact component={VehicleReport}/>
+            <Route path = "/" exact component={login}/>
+
+            <Route path="/addRental" exact component={RentalPlacement} />
+            <Route path="/rentalList" exact component={rentalList} />
+
+            <Route path="/addEvent" exact>
+
+            <Event />
+
+            </Route>
+
+            <Route path="/viewEvent">
+
+            <ViewEvent />
+
+            </Route>
+
+            <Route path="/reservation/report">
+
+            <EventReport />
+
+            </Route>
+            
+            </Switch>
+            <Footer></Footer>
+        </Router>
+       
+
+
+    </div>
+  )
+}

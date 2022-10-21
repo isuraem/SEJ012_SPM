@@ -10,7 +10,7 @@ function Header(props) {
 // Some random colors
 // const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
 
-// const numBalls = 5;
+// const numBalls = 2;
 // const balls = [];
 
 // for (let i = 0; i < numBalls; i++) {
@@ -27,7 +27,7 @@ function Header(props) {
 //   document.body.append(ball);
 // }
 
-// // Keyframes
+// Keyframes
 // balls.forEach((el, i, ra) => {
 //   let to = {
 //     x: Math.random() * (i % 2 === 0 ? -11 : 11),
@@ -149,14 +149,14 @@ function Header(props) {
               </li>
               <ul className="sub-menu collapse" id="new2">
                 <li className="has-subnav">
-                  <Link to="/viewReservation">
+                  <Link to="/viewEvent">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text"> Reservations List</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav ">
-                  <Link to="/addReservation">
+                  <Link to="/addEvent">
                     <i className="fa"></i>
                     <span className="nav-text">Add Reservation</span>
                     <i className="fa fa-angle-right fa-3x"></i>
@@ -199,14 +199,14 @@ function Header(props) {
               </li>
               <ul className="sub-menu collapse" id="new4">
                 <li className="has-subnav ">
-                  <Link to="/allEmp">
+                  <Link to="/empList">
                     <i className="fa"></i>
                     <span className="nav-text">Employee List</span>
                     <i className="fa fa-angle-right fa-3x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav">
-                  <Link to="/addEmp">
+                  <Link to="/addEmployee">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text">Add New Employee</span>
                     <i className="fa fa-angle-right fa-2x"></i>
@@ -242,13 +242,12 @@ function Header(props) {
                   </Link>
                 </li>
                 <li className="has-subnav">
-                  <Link to="/vehicle/report">
+                  <Link to="/vehicle/viewVehicleReport">
                     <i className="fa fa-2x"></i>
                     <span className="nav-text">Vehicle Inventory</span>
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
-
               </ul>
             </li>
             <hr></hr>

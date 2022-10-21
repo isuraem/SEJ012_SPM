@@ -1,0 +1,3 @@
+http://localhost:8070/event/addEvent
+http://localhost:8070/event/displayEvent
+http://localhost:8070/vehicle/searchPerDayRentalPrice
