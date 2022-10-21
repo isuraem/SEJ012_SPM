@@ -254,7 +254,7 @@ function RentalPlacement() {
 
                     if (result.isConfirmed) {
 
-                        const newRental = { from, to, status, payment, vehicleType, model, pickAddress, addPrice, advPayment, finalPrice, customerName, customerName, customerNIC, customerAdd, contactNo, NICcopy }
+                        const newRental = { from, to, status, payment, vehicleType, model, pickAddress, addPrice, advPayment, finalPrice, customerName, customerNIC, customerAdd, contactNo, NICcopy }
 
                         axios.post("http://localhost:8070/rental/addRentalRec", newRental).then(() => {
                             Swal.fire({

@@ -67,7 +67,7 @@ function UpdateRental() {
 
             if (result.isConfirmed) {
 
-                const newRental = { from, to, status, payment, vehicleType, model, pickAddress, addPrice, advPayment, finalPrice, customerName, customerName, customerNIC, customerAdd, contactNo, NICcopy, returnDate }
+                const newRental = { from, to, status, payment, vehicleType, model, pickAddress, addPrice, advPayment, finalPrice, customerName, customerNIC, customerAdd, contactNo, NICcopy, returnDate }
 
                 axios.put(`http://localhost:8070/rental/updateRental/${rentalId}`, newRental).then(() => {
                     //alert("Rental Record successfully Updated");
