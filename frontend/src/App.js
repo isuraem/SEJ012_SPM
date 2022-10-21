@@ -1,5 +1,4 @@
-import "./App.css";
-import { Home } from "././Home";
+import { Home } from "./home";
 
 function App() {
   return <div className="App">

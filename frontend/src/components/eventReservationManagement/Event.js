@@ -34,9 +34,6 @@ function Reservation() {
   const [advancedpayment, setadvancedpayment] = useState("");
   const [totalreservation, settotalreservation] = useState("");
   const [status, setstatus] = useState("");
-  // const [penaltyDay, setpenaltyDay] = useState("initial value");
-  // const [penaltyCharge, setpenaltyCharge] = useState("initial value");
-  // const [returnDay, setreturnDay] = useState("initial value");
 
 
   const [vehicleType, setVehicleType] = useState("");
