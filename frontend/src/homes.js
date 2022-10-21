@@ -15,7 +15,7 @@ import EventReport from "./components/eventReservationManagement/EventReport";
 import login from './components/login'
 import Footer from './Footer';
 
-export const homes = () => {
+export const Homes = () => {
   return (
     <div>
         <Router>
