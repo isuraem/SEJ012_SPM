@@ -248,7 +248,6 @@ function Header(props) {
                     <i className="fa fa-angle-right fa-2x"></i>
                   </Link>
                 </li>
-
               </ul>
             </li>
             <hr></hr>
