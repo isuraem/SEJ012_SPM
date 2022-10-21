@@ -36,6 +36,13 @@ app.use("/event", eventRouter);
 const removedEventRouter = require("./routes/removedReservation");
 app.use("/removedEvent", removedEventRouter);
 
+ const rentalRouter = require("./routes/rentalController.js");
+app.use("/rental", rentalRouter);//table name is created at this point
+
+
+//Vehicle_Routes
+const vehicleRouter = require("./routes/vehicles.js");
+app.use("/vehicle", vehicleRouter);
 
  
  app.listen(PORT, () => {
