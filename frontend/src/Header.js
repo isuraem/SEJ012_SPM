@@ -199,14 +199,14 @@ function Header(props) {
               </li>
               <ul className="sub-menu collapse" id="new4">
                 <li className="has-subnav ">
-                  <Link to="/empList">
+                  <Link to="/allEmp">
                     <i className="fa"></i>
                     <span className="nav-text">Employee List</span>
                     <i className="fa fa-angle-right fa-3x"></i>
                   </Link>
                 </li>
                 <li className="has-subnav">
-                  <Link to="/addEmployee">
+                  <Link to="/addEmp">
                     <i className="fa  fa-2x"></i>
                     <span className="nav-text">Add New Employee</span>
                     <i className="fa fa-angle-right fa-2x"></i>

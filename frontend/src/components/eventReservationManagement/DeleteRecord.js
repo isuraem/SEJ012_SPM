@@ -74,7 +74,7 @@ function DeleteRecord() {
             <div className="table-emp mt-3">
                 <div class="row table-head">
                     <div class="col">
-                        <h3 className="float-left">Completed Reservation</h3>
+                        <h3 className="float-left">Deleted Reservation</h3>
                     </div>
 
                 </div>
