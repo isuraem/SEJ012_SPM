@@ -44,16 +44,16 @@ export default function LoginUser() {
             history.push("/vehicle/viewVehicle");
           } else if (response.data.login.username == "RD003") {
             // "username" : "ED003",
-            // "password" : "isurae"
-            history.push("/adde");
+            // "password" : "isura"
+            history.push("/viewEvent");
           } else if (response.data.login.username == "RT004") {
             // "username" : "ET004",
             // "password" : "oshada"
-            history.push("/empList");
+            history.push("/rentalList");
           } else if (response.data.login.username == "ED005") {
             // "username" : "IM005",
             // "password" : "udana"
-            history.push("/view");
+            history.push("/allEmp");
           } 
         }
       })
@@ -64,16 +64,12 @@ export default function LoginUser() {
 
   return (
     <div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+    <br />
 
-      <br />
+<br />
+   
       <div className="container">
+
         <div className="row px-3">
           <div className="col-lg-10 col-xl-9 card flex-row mx-auto px-0">
             <div className="img-left d-none d-md-flex">
@@ -127,6 +123,21 @@ export default function LoginUser() {
           </div>
         </div>
       </div>
+
+      <br />
+<br />
+<br />
+<br />
+
+<br />
+<br />
+
+<br />
+<br />
+<br />
+
+<br />
+<br />
     </div>
   );
 }

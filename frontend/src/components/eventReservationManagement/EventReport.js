@@ -327,6 +327,11 @@ function EventReport() {
                     <div ref={ref} className="pl-4">
                         <div className="report">
                             {/* <img src="https://i.ibb.co/7S45yMk/reservation-Report.jpg" /> */}
+                            <h1>Let's Go Enterprise Pvt(Ltd)</h1>
+                            <h3>Reservation Management Report</h3>
+                            <br></br>
+                            <img src="/images/reportpic.jpg" width="250px" height="200px"/>
+                            <br></br>
 
                             <table class="table table-hover"> 
                                 <thead class="thead-dark">
